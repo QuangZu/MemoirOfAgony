@@ -1,0 +1,65 @@
+/* ============================================
+   HOVER LETTER ANIMATION
+   Individual letter hover effects with white color and glitch
+   ============================================ */
+
+.letter {
+    display: inline-block;
+    position: relative;
+    transition: all 0.2s ease;
+    color: #ff0000;
+    text-shadow: 
+        0 0 10px #ff0000,
+        0 0 20px rgba(255, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.letter:hover {
+    color: #ffffff;
+    animation: letterGlitch 0.3s infinite;
+}
+
+@keyframes letterGlitch {
+    0% {
+        transform: translate(0);
+        text-shadow: 
+            -2px 0 #00ffff,
+            2px 0 #ff00ff,
+            0 0 20px #ffffff;
+    }
+    20% {
+        transform: translate(-2px, 2px);
+        text-shadow: 
+            2px 0 #00ffff,
+            -2px 0 #ff00ff,
+            0 0 30px #ffffff;
+    }
+    40% {
+        transform: translate(2px, -2px);
+        text-shadow: 
+            -2px 0 #00ffff,
+            2px 0 #ff00ff,
+            0 0 25px #ffffff;
+    }
+    60% {
+        transform: translate(-2px, -2px);
+        text-shadow: 
+            2px 0 #00ffff,
+            -2px 0 #ff00ff,
+            0 0 35px #ffffff;
+    }
+    80% {
+        transform: translate(2px, 2px);
+        text-shadow: 
+            -2px 0 #00ffff,
+            2px 0 #ff00ff,
+            0 0 20px #ffffff;
+    }
+    100% {
+        transform: translate(0);
+        text-shadow: 
+            -2px 0 #00ffff,
+            2px 0 #ff00ff,
+            0 0 30px #ffffff;
+    }
+}

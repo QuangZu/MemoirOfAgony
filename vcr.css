@@ -1,0 +1,110 @@
+/* ============================================
+   VCR EFFECT - Old TV Screen Effect
+   Adapted from vcr.scss
+   ============================================ */
+
+canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9998;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+canvas.snow {
+    background-color: #aaa;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.screen-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.screen-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.vcr {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.video {
+    filter: blur(1px);
+    width: 100%;
+    height: 100%;
+}
+
+.vignette {
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/crt.png);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.scanlines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    background: linear-gradient(transparent 50%, rgba(18, 16, 16, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+.wobblex {
+    animation: wobblex 100ms infinite;
+}
+
+.wobbley {
+    animation: wobbley 100ms infinite;
+}
+
+@keyframes wobblex {
+    50% {
+        transform: translateX(1px);
+    }
+    51% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes wobbley {
+    0% {
+        transform: translateY(1px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.roller {
+    position: relative;
+    animation: 2000ms linear 0ms forwards infinite roll;
+}
+
+@keyframes roll {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(0, -50%, 0);
+    }
+}

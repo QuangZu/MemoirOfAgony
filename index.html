@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- External CSS Files -->
+    <link rel="stylesheet" href="glitch.css">
+    <link rel="stylesheet" href="hover_letter.css">
+    <link rel="stylesheet" href="vcr.css">
+
+    <title>Memoir of Agony</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* ============================================
+           MATRIX BACKGROUND
+           ============================================ */
+
+        #matrixBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .matrix-wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            width: 100vw;
+        }
+
+        .matrix-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .matrix-column > span {
+            display: block;
+            padding: 0 0.125em;
+            font-size: 1.2em;
+            font-family: monospace;
+            color: #00ff00;
+            animation: colorPulse 3s infinite;
+        }
+
+        @keyframes colorPulse {
+            0% {
+                color: #90ee90;
+            }
+            40% {
+                color: #00ff00;
+            }
+            50% {
+                color: #00cc00;
+            }
+            100% {
+                color: #006600;
+            }
+        }
+
+        /* ============================================
+           SCENE 1 - START SCREEN
+           ============================================ */
+
+        #scene1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: transparent;
+            z-index: 100;
+            opacity: 1;
+        }
+
+        #scene1 > .screen-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        #scene1 .screen-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #scene1 .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10003;
+            position: relative;
+        }
+
+        #scene1.transitioning {
+            opacity: 0;
+            transition: opacity 1.5s ease-out;
+        }
+
+        #scene1.hidden {
+            display: none;
+        }
+
+        /* Title container */
+        .title-container {
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 10003;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .glitch-title {
+            font-size: 150px;
+            font-weight: 900;
+            text-align: center;
+            letter-spacing: 12px;
+            position: relative;
+            display: inline-block;
+            color: #fff;
+            font-family: 'TT Travels Next Bold', 'Barlow', sans-serif;
+        }
+
+        /* Line break for title */
+        .title-line {
+            display: block;
+        }
+
+        /* Apply button */
+        .apply-btn {
+            padding: 20px 60px;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-family: 'TT Travels Next', 'Barlow', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            border: 3px solid #ffffff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+            z-index: 10003;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .apply-btn:hover {
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow:
+                0 0 20px #ffffff,
+                0 0 40px #ffffff;
+        }
+
+        .apply-btn:hover::before {
+            width: 300%;
+            height: 500%;
+        }
+
+        .apply-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================
+           SCENE 2 - VIDEO PLAYER WITH VCR EFFECT
+           ============================================ */
+
+        #scene2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            z-index: 50;
+        }
+
+        #scene2.active {
+            display: block;
+        }
+
+        /* VCR Screen Container */
+        #screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Cinematic vignette overlay - integrated from vcr.scss */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        /* Full screen video */
+        #mainVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Scanlines overlay for VCR effect */
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* Timer Line - sticky to buttons */
+        .timer-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .timer-container.active {
+            display: block;
+        }
+
+        .timer-bar {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .timer-center {
+            left: 50%;
+            transform: translateX(-50%);
+            transform-origin: center;
+        }
+
+        @keyframes timerShrinkCenter {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+
+        .timer-bar.animating {
+            animation: timerShrinkCenter var(--timer-duration) linear forwards;
+        }
+
+        /* Choice buttons at bottom - full width */
+        .choice-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+            z-index: 10001;
+            flex-direction: column;
+        }
+
+        .choice-container.visible {
+            display: flex;
+        }
+
+        .choice-buttons-row {
+            display: flex;
+            width: 100%;
+        }
+
+        .choice-btn {
+            flex: 1;
+            padding: 25px 20px;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-family: 'TT Travels Next', 'Barlow', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            border-top: 2px solid #ffffff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .choice-btn:first-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .choice-btn:last-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .choice-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            transform: translateY(-5px);
+            box-shadow:
+                0 10px 30px rgba(255, 255, 255, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .choice-btn {
+                padding: 20px 15px;
+                font-size: 1rem;
+            }
+
+            .glitch-title {
+                letter-spacing: 4px;
+            }
+
+        }
+
+        /* Hide dat.gui controls */
+        .dg.ac {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <div id="matrixBackground">
+        <div class="matrix-wrapper" id="matrixWrapper"></div>
+    </div>
+
+    <!-- SCENE 1: Start Screen with VCR Effect -->
+    <div id="scene1">
+        <div class="screen-container">
+            <div class="screen-wrapper wobbley">
+                <div class="screen-wrapper">
+                    <div class="screen-wrapper">
+                        <div class="content-wrapper">
+                            <div class="title-container">
+                                <div class="glitch" id="glitchContainer">
+                                    <div class="line" id="mainTitle"></div>
+                                    <div class="line" id="mainTitle2"></div>
+                                    <div class="line" id="mainTitle3"></div>
+                                    <div class="line" id="mainTitle4"></div>
+                                    <div class="line" id="mainTitle5"></div>
+                                    <div class="line" id="mainTitle6"></div>
+                                    <div class="line" id="mainTitle7"></div>
+                                    <div class="line" id="mainTitle8"></div>
+                                    <div class="line" id="mainTitle9"></div>
+                                </div>
+                            </div>
+                            <button class="apply-btn" id="applyBtn">
+                                <span>Apply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VCR Effects for Scene 1 -->
+        <div class="vignette"></div>
+        <div class="scanlines"></div>
+        <canvas class="vcr" id="vcrScene1"></canvas>
+        <canvas class="snow" id="snowScene1"></canvas>
+    </div>
+
+    <!-- SCENE 2: Video Player with VCR Effect -->
+    <div id="scene2">
+        <div class="screen-container">
+            <div class="screen-wrapper wobbley">
+                <div class="screen-wrapper">
+                    <div class="screen-wrapper">
+                        <div id="screen">
+                            <!-- Full screen video -->
+                            <video id="mainVideo" class="video" preload="auto">
+                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VCR Effects -->
+        <div class="vignette"></div>
+        <div class="scanlines"></div>
+        <canvas class="vcr"></canvas>
+        <canvas class="snow"></canvas>
+
+        <!-- Choice buttons with timer -->
+        <div class="choice-container" id="choiceContainer">
+            <!-- Timer stuck to top of buttons -->
+            <div class="timer-container" id="timerContainer">
+                <div class="timer-bar timer-center" id="timerCenter"></div>
+            </div>
+
+            <!-- Buttons row -->
+            <div class="choice-buttons-row">
+                <button class="choice-btn" id="choiceA" data-choice="trustThem">
+                    Trust Them
+                </button>
+                <button class="choice-btn" id="choiceB" data-choice="runAway">
+                    Run Away
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Scripts -->
+    <script src="dat.gui.min.js"></script>
+    <script src="vcr.js"></script>
+
+    <script>
+        // ============================================
+        // MATRIX BACKGROUND GENERATION
+        // ============================================
+
+        const matrixWrapper = document.getElementById('matrixWrapper');
+        const numColumns = 80;
+        const numCharsPerColumn = 50;
+
+        function createMatrixBackground() {
+            for (let col = 0; col < numColumns; col++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+
+                for (let i = 0; i < numCharsPerColumn; i++) {
+                    const span = document.createElement('span');
+                    // Random Unicode characters (katakana and symbols)
+                    const charCode = Math.floor(Math.random() * 255) + 10240;
+                    span.innerHTML = `&#${charCode};`;
+
+                    // Random animation duration and delay
+                    const duration = (Math.random() * 100) / 23 + 1;
+                    const delay = (duration / 50) * i;
+
+                    span.style.animationDuration = `${duration}s`;
+                    span.style.animationDelay = `${delay}s`;
+
+                    column.appendChild(span);
+                }
+
+                matrixWrapper.appendChild(column);
+            }
+        }
+
+        createMatrixBackground();
+
+        // ============================================
+        // CREATE GLITCH TITLE WITH LETTER HOVER
+        // ============================================
+
+        const titleText = "MEMOIR OF AGONY";
+
+        // Populate all 9 glitch lines with the same content
+        for (let i = 1; i <= 9; i++) {
+            const titleElement = document.getElementById(i === 1 ? 'mainTitle' : `mainTitle${i}`);
+            const lines = ["MEMOIR OF", "AGONY"];            lines.forEach((line, lineIndex) => {
+                if (lineIndex > 0) {
+                    const br = document.createElement('span');
+                    br.className = 'title-line';
+                    titleElement.appendChild(br);
+                }
+
+                line.split('').forEach(char => {
+                    const span = document.createElement('span');
+                    span.className = 'letter';
+                    span.textContent = char === ' ' ? '\u00A0' : char;
+                    titleElement.appendChild(span);
+                });
+            });
+        }
+
+        // ============================================
+        // SCENE TRANSITION - SINGLE, CLEAN TRANSITION
+        // ============================================
+
+        const applyBtn = document.getElementById('applyBtn');
+        const scene1 = document.getElementById('scene1');
+        const scene2 = document.getElementById('scene2');
+
+        applyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Fade out scene 1
+            scene1.classList.add('transitioning');
+
+            // After fade completes, show scene 2
+            setTimeout(() => {
+                scene1.classList.add('hidden');
+                scene2.classList.add('active');
+                loadScenario('intro');
+            }, 1500);
+        });
+
+        // ============================================
+        // VIDEO INTERACTION LOGIC
+        // ============================================
+
+        const video = document.getElementById('mainVideo');
+        const choiceContainer = document.getElementById('choiceContainer');
+        const timerContainer = document.getElementById('timerContainer');
+        const timerCenter = document.getElementById('timerCenter');
+        const choiceA = document.getElementById('choiceA');
+        const choiceB = document.getElementById('choiceB');
+
+        const CHOICE_TIMER_DURATION = 10; // 10 seconds to choose
+
+        // Video scenarios mapping
+        const videoScenarios = {
+            intro: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                pauseAt: 8,
+                choices: {
+                    trustThem: 'trustPath',
+                    runAway: 'runPath'
+                }
+            },
+            trustPath: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+                pauseAt: 10,
+                choices: {
+                    trustThem: 'badEnding',
+                    runAway: 'escapeEnding'
+                }
+            },
+            runPath: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                pauseAt: 8,
+                choices: {
+                    trustThem: 'neutralEnding',
+                    runAway: 'goodEnding'
+                }
+            },
+            badEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                pauseAt: null
+            },
+            goodEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+                pauseAt: null
+            },
+            escapeEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+                pauseAt: null
+            },
+            neutralEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+                pauseAt: null
+            }
+        };
+
+        let currentScenario = 'intro';
+        let hasShownChoices = false;
+        let choiceTimeout = null;
+
+        // Load video scenario
+        function loadScenario(scenarioKey) {
+            const scenario = videoScenarios[scenarioKey];
+            if (!scenario) return;
+
+            hasShownChoices = false;
+            currentScenario = scenarioKey;
+
+            video.src = scenario.src;
+            video.load();
+
+            video.onloadeddata = () => {
+                video.play().catch(err => {
+                    console.error('Video play failed:', err);
+                });
+            };
+        }
+
+        // Monitor video time
+        video.addEventListener('timeupdate', () => {
+            const scenario = videoScenarios[currentScenario];
+
+            if (scenario.pauseAt && !hasShownChoices && video.currentTime >= scenario.pauseAt) {
+                video.pause();
+                showChoices();
+                hasShownChoices = true;
+            }
+        });
+
+        // Show choice buttons with timer
+        function showChoices() {
+            choiceContainer.classList.add('visible');
+            timerContainer.classList.add('active');
+
+            // Set timer duration CSS variable
+            timerCenter.style.setProperty('--timer-duration', `${CHOICE_TIMER_DURATION}s`);
+
+            // Start timer animation
+            timerCenter.classList.add('animating');
+
+            // Auto-select random choice if time runs out
+            choiceTimeout = setTimeout(() => {
+                const randomChoice = Math.random() > 0.5 ? 'trustThem' : 'runAway';
+                handleChoice(randomChoice);
+            }, CHOICE_TIMER_DURATION * 1000);
+        }
+
+        // Hide choices and timer
+        function hideChoices() {
+            choiceContainer.classList.remove('visible');
+            timerContainer.classList.remove('active');
+            timerCenter.classList.remove('animating');
+
+            if (choiceTimeout) {
+                clearTimeout(choiceTimeout);
+                choiceTimeout = null;
+            }
+        }
+
+        // Handle choice clicks
+        choiceA.addEventListener('click', () => {
+            handleChoice('trustThem');
+        });
+
+        choiceB.addEventListener('click', () => {
+            handleChoice('runAway');
+        });
+
+        function handleChoice(choice) {
+            hideChoices();
+
+            const scenario = videoScenarios[currentScenario];
+            const nextScenario = scenario.choices[choice];
+
+            if (nextScenario) {
+                loadScenario(nextScenario);
+            } else {
+                video.play();
+            }
+        }
+
+        // Video ended
+        video.addEventListener('ended', () => {
+            console.log('Video ended:', currentScenario);
+        });
+
+    </script>
+</body>
+</html>
