@@ -10,6 +10,14 @@
   letter-spacing: 12px;
 }
 
+.glitch.intro-glitch {
+  font-size: 40px;
+}
+
+.glitch.intro-glitch .character-letter {
+  font-size: 0.6em;
+}
+
 .line {
   position: relative;
 }
