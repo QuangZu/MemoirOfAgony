@@ -16,6 +16,13 @@
             font-weight: bold;
             font-style: normal;
         }
+
+        @font-face {
+            font-family: 'TT Travels Next';
+            src: url('font/TT Travels Next Trial Bold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
     </style>
 
     <!-- External CSS Files -->
@@ -23,7 +30,7 @@
     <link rel="stylesheet" href="effect/hover_letter.css">
     <link rel="stylesheet" href="effect/vcr.css">
 
-    <title>Memoir of Agony - Start</title>
+    <title>Memoir of Agony - Introduction</title>
 
     <style>
         * {
@@ -67,9 +74,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: transparent;
             z-index: 100;
-            opacity: 1;
+            background: transparent;
         }
 
         .screen-container {
@@ -103,49 +109,79 @@
             box-sizing: border-box;
         }
 
-        /* Title container */
-        .title-container {
-            margin-bottom: 0;
+        .intro-title-container {
+            margin-bottom: 20px;
             position: relative;
             z-index: 10003;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             text-align: center;
-            width: 100%;
         }
 
-        .chapter-title {
-            font-size: 3rem;
-            position: absolute;
-            left: 20px;
-            font-weight: normal;
-            color: #ffffff;
-            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
-            letter-spacing: 4px;
-            margin-bottom: 0px;
-            text-align: left;
-        }
-
-        .glitch-title {
-            font-size: clamp(60px, 10vw, 180px);
-            font-weight: 900;
+        .intro-glitch-title {
+            font-size: 18px;
+            font-weight: 600;
             text-align: center;
-            letter-spacing: 12px;
+            letter-spacing: 6px;
             position: relative;
             display: inline-block;
-            color: #DE0000;
-            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
-            margin-top: 40px;
+            color: #fff;
+            font-family: 'TT Travels Next', 'Barlow', sans-serif;
         }
 
-        .title-line {
-            display: block;
+        .intro-glitch-title .character-letter {
+            font-size: 0.6em;
         }
 
-        /* Apply button */
-        .apply-btn {
+        /* Character images container */
+        .intro-images-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .intro-person-image {
+            position: absolute;
+            top: 50%;
+            left: 52%;
+            transform: translate(-50%, -50%);
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            z-index: 2;
+        }
+
+        .intro-person-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .intro-additional-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 60%;
+            width: 60%;
+            height: auto;
+            z-index: 1;
+        }
+
+        .intro-additional-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .start-btn {
             padding: 0px 50px;
             font-size: clamp(1.2rem, 3vw, 2rem);
             font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
@@ -163,7 +199,7 @@
             margin-bottom: 10px;
         }
 
-        .apply-btn::before {
+        .start-btn::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -176,17 +212,69 @@
             transition: width 0.6s ease, height 0.6s ease;
         }
 
-        .apply-btn:hover {
+        .start-btn:hover {
             background: #B00000;
             box-shadow: 0 0 20px #DE0000, 0 0 40px #DE0000;
         }
 
-        .apply-btn:hover::before {
+        .start-btn:hover::before {
             width: 300%;
             height: 500%;
         }
 
-        .apply-btn span {
+        .start-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Back button */
+        .back-btn {
+            margin-left: 20px;
+            padding: 1px 20px;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+            background: #DE0000;
+            color: #000000;
+            border: 2px solid #DE0000;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: absolute;
+            top: 40px;
+            left: 30px;
+            z-index: 10006;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            pointer-events: auto;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .back-btn:hover {
+            background: #B00000;
+            color: #000000;
+            border-color: #B00000;
+            box-shadow: 0 0 20px #DE0000, 0 0 40px #DE0000;
+        }
+
+        .back-btn:hover::before {
+            width: 300%;
+            height: 500%;
+        }
+
+        .back-btn span {
             position: relative;
             z-index: 1;
         }
@@ -259,10 +347,26 @@
             pointer-events: none;
         }
 
-        /* Responsive */
+        .title-line {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .intro-person-image {
+                max-width: 500px;
+            }
+
+            .intro-additional-image {
+                max-width: 100%;
+            }
+        }
+
         @media (max-width: 768px) {
-            .glitch-title {
-                letter-spacing: 4px;
+            .back-btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+                top: 20px;
+                left: 20px;
             }
         }
 
@@ -382,35 +486,58 @@
             <div class="screen-wrapper wobbley">
                 <div class="screen-wrapper">
                     <div class="screen-wrapper">
+                        <!-- Back Button -->
+                        <button class="back-btn" id="backBtn">
+                            <span>Back</span>
+                        </button>
+                        
                         <div class="content-wrapper">
-                            <div class="title-container">
-                                <div class="chapter-title">CH. 09</div>
-                                <div class="glitch glitch-title" id="glitchContainer">
-                                    <div class="line" id="mainTitle"></div>
-                                    <div class="line" id="mainTitle2"></div>
-                                    <div class="line" id="mainTitle3"></div>
-                                    <div class="line" id="mainTitle4"></div>
-                                    <div class="line" id="mainTitle5"></div>
-                                    <div class="line" id="mainTitle6"></div>
-                                    <div class="line" id="mainTitle7"></div>
-                                    <div class="line" id="mainTitle8"></div>
-                                    <div class="line" id="mainTitle9"></div>
+                            <!-- Top section with title and images -->
+                            <div>
+                                <!-- Glitch Title -->
+                                <div class="intro-title-container">
+                                    <div class="glitch intro-glitch" id="introGlitchContainer">
+                                        <div class="line" id="introTitle"></div>
+                                        <div class="line" id="introTitle2"></div>
+                                        <div class="line" id="introTitle3"></div>
+                                        <div class="line" id="introTitle4"></div>
+                                        <div class="line" id="introTitle5"></div>
+                                        <div class="line" id="introTitle6"></div>
+                                        <div class="line" id="introTitle7"></div>
+                                        <div class="line" id="introTitle8"></div>
+                                        <div class="line" id="introTitle9"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Character Images -->
+                                <div class="intro-images-container">
+                                    <div class="intro-person-image">
+                                        <img src="img/Asset 6.png" alt="Character" />
+                                    </div>
+                                    <div class="intro-additional-image">
+                                        <img src="img/Asset 7.png" alt="Additional" />
+                                    </div>
                                 </div>
                             </div>
-                            <button class="apply-btn wobblex wobbley" id="applyBtn">
-                                <span>START NOW!</span>
-                            </button>
-                            
-                            <!-- Navigation Menu -->
-                            <div class="nav-menu">
-                                <a href="index.html" class="nav-btn active">Home</a>
-                                <a href="about.html" class="nav-btn">About</a>
-                                <a href="credits.html" class="nav-btn">Credits</a>
-                            </div>
-                            
-                            <!-- Logo -->
-                            <div class="logo-container">
-                                <img src="img/Asset 2.png" alt="Logo" />
+
+                            <!-- Bottom section with button, navigation and logo -->
+                            <div style="position: relative; width: 100%; display: flex; flex-direction: column; align-items: center;">
+                                <!-- Start Button -->
+                                <button class="start-btn wobblex wobbley" id="startBtn">
+                                    <span>Start</span>
+                                </button>
+                                
+                                <!-- Navigation Menu -->
+                                <div class="nav-menu">
+                                    <a href="index.html" class="nav-btn">Home</a>
+                                    <a href="about.html" class="nav-btn">About</a>
+                                    <a href="credits.html" class="nav-btn">Credits</a>
+                                </div>
+                                
+                                <!-- Logo -->
+                                <div class="logo-container">
+                                    <img src="img/Asset 2.png" alt="Logo" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -421,8 +548,8 @@
         <!-- VCR Effects -->
         <div class="vignette"></div>
         <div class="scanlines"></div>
-        <canvas class="vcr" id="vcrindex"></canvas>
-        <canvas class="snow" id="snowindex"></canvas>
+        <canvas class="vcr" id="vcrScene2"></canvas>
+        <canvas class="snow" id="snowScene2"></canvas>
     </div>
 
     <!-- External Scripts -->
@@ -464,41 +591,46 @@
         createMatrixBackground();
 
         // ============================================
-        // CREATE GLITCH TITLE WITH LETTER HOVER
+        // CREATE GLITCH TITLE FOR SCENE 2
         // ============================================
 
-        const titleText = "THE BRIDGE";
+        const introTitleLines = ["INTRODUCING", "CHARACTER"];
 
-        // Populate all 9 glitch lines
+        // Populate all 9 glitch lines for intro title
         for (let i = 1; i <= 9; i++) {
-            const titleElement = document.getElementById(i === 1 ? 'mainTitle' : `mainTitle${i}`);
-            const lines = ["THE BRIDGE"];
-            
-            lines.forEach((line, lineIndex) => {
+            const introElement = document.getElementById(i === 1 ? 'introTitle' : `introTitle${i}`);
+
+            introTitleLines.forEach((line, lineIndex) => {
                 if (lineIndex > 0) {
                     const br = document.createElement('span');
                     br.className = 'title-line';
-                    titleElement.appendChild(br);
+                    introElement.appendChild(br);
                 }
 
                 line.split('').forEach(char => {
                     const span = document.createElement('span');
-                    span.className = 'letter';
+                    span.className = lineIndex === 1 ? 'letter character-letter' : 'letter';
                     span.textContent = char === ' ' ? '\u00A0' : char;
-                    titleElement.appendChild(span);
+                    introElement.appendChild(span);
                 });
             });
         }
 
         // ============================================
-        // NAVIGATION TO NEXT SCENE
+        // NAVIGATION
         // ============================================
 
-        const applyBtn = document.getElementById('applyBtn');
+        const startBtn = document.getElementById('startBtn');
+        const backBtn = document.getElementById('backBtn');
 
-        applyBtn.addEventListener('click', (e) => {
+        startBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = 'intro.html';
+            window.location.href = 'videoplayer.html';
+        });
+
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'index.html';
         });
     </script>
 </body>

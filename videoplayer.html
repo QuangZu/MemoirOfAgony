@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'TT Travels Next Trial Bold';
+            src: url('font/TT Travels Next Trial Bold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'TT Travels Next';
+            src: url('font/TT Travels Next Trial Bold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+
+    <!-- External CSS Files -->
+    <link rel="stylesheet" href="effect/glitch.css">
+    <link rel="stylesheet" href="effect/hover_letter.css">
+    <link rel="stylesheet" href="effect/vcr.css">
+
+    <title>Memoir of Agony</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Main Scene */
+        .main-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 50;
+        }
+
+        .screen-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .screen-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* VCR Screen Container */
+        #screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Full screen video */
+        #mainVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* VCR Effects */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* Back button */
+        .back-btn {
+            padding: 1px 20px;
+            margin-left: 20px;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+            background: #DE0000;
+            color: #000000;
+            border: 2px solid #DE0000;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 10006;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            pointer-events: auto;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .back-btn:hover {
+            background: #B00000;
+            color: #000000;
+            border-color: #B00000;
+            box-shadow: 0 0 20px #DE0000, 0 0 40px #DE0000;
+        }
+
+        .back-btn:hover::before {
+            width: 300%;
+            height: 500%;
+        }
+
+        .back-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Timer Line - sticky to buttons */
+        .timer-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .timer-container.active {
+            display: block;
+        }
+
+        .timer-bar {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .timer-center {
+            left: 50%;
+            transform: translateX(-50%);
+            transform-origin: center;
+        }
+
+        @keyframes timerShrinkCenter {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+
+        .timer-bar.animating {
+            animation: timerShrinkCenter var(--timer-duration) linear forwards;
+        }
+
+        /* Choice buttons at bottom - full width */
+        .choice-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+            z-index: 10001;
+            flex-direction: column;
+        }
+
+        .choice-container.visible {
+            display: flex;
+        }
+
+        .choice-buttons-row {
+            display: flex;
+            width: 100%;
+        }
+
+        .choice-btn {
+            flex: 1;
+            padding: 25px 20px;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-family: 'TT Travels Next', 'Barlow', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            border-top: 2px solid #ffffff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .choice-btn:first-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .choice-btn:last-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .choice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .choice-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .choice-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .choice-btn {
+                padding: 20px 15px;
+                font-size: 1rem;
+            }
+
+            .back-btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+                top: 20px;
+                left: 20px;
+            }
+        }
+
+        /* Hide dat.gui controls */
+        .dg.ac {
+            display: none !important;
+        }
+
+        /* Page transition animations */
+        @keyframes tvTurnOn {
+            0% {
+                transform: scale(1, 0.001) translate3d(0, 0, 0);
+                filter: brightness(5);
+            }
+            10% {
+                transform: scale(1, 0.8) translate3d(0, 0, 0);
+            }
+            50% {
+                transform: scale(1, 1) translate3d(0, 0, 0);
+                filter: brightness(1.5) contrast(1.5);
+            }
+            100% {
+                transform: scale(1, 1) translate3d(0, 0, 0);
+                filter: brightness(1) contrast(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes staticNoise {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Static noise overlay */
+        .static-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                );
+            z-index: 99999;
+            pointer-events: none;
+            animation: staticNoise 0.1s infinite, fadeOut 0.8s ease-out 0.5s forwards;
+        }
+
+        .static-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .main-scene {
+            animation: tvTurnOn 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        /* Page exit animation */
+        body.page-exit .main-scene {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Static noise overlay for TV turn-on effect -->
+    <div class="static-overlay"></div>
+
+    <!-- Main Scene -->
+    <div class="main-scene">
+        <div class="screen-container">
+            <div class="screen-wrapper wobbley">
+                <div class="screen-wrapper">
+                    <div class="screen-wrapper">
+                        <!-- Back Button -->
+                        <button class="back-btn" id="backBtn">
+                            <span>Back</span>
+                        </button>
+                        
+                        <div id="screen">
+                            <!-- Full screen video -->
+                            <video id="mainVideo" class="video" preload="auto" muted>
+                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VCR Effects -->
+        <div class="vignette"></div>
+        <div class="scanlines"></div>
+        <canvas class="vcr"></canvas>
+        <canvas class="snow"></canvas>
+
+        <!-- Choice buttons with timer -->
+        <div class="choice-container" id="choiceContainer">
+            <!-- Timer stuck to top of buttons -->
+            <div class="timer-container" id="timerContainer">
+                <div class="timer-bar timer-center" id="timerCenter"></div>
+            </div>
+
+            <!-- Buttons row -->
+            <div class="choice-buttons-row">
+                <button class="choice-btn" id="choiceA" data-choice="trustThem">
+                    Trust Them
+                </button>
+                <button class="choice-btn" id="choiceB" data-choice="runAway">
+                    Run Away
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Scripts -->
+    <script src="dat.gui.min.js"></script>
+    <script src="vcr.js"></script>
+
+    <script>
+        // ============================================
+        // VIDEO INTERACTION LOGIC
+        // ============================================
+
+        const video = document.getElementById('mainVideo');
+        const choiceContainer = document.getElementById('choiceContainer');
+        const timerContainer = document.getElementById('timerContainer');
+        const timerCenter = document.getElementById('timerCenter');
+        const choiceA = document.getElementById('choiceA');
+        const choiceB = document.getElementById('choiceB');
+        const backBtn = document.getElementById('backBtn');
+
+        const CHOICE_TIMER_DURATION = 10; // 10 seconds to choose
+
+        // Initial intro sequence - Shot no.1 to Shot no.7
+        const introSequence = [
+            'video/Shot no.1.mp4',
+            'video/Shot no.2.mp4',
+            'video/Shot no.3.mp4',
+            'video/Shot no.4.mp4',
+            'video/Shot no.5.mp4',
+            'video/Shot no.6.mp4',
+            'video/Shot no.7.mp4'
+        ];
+
+        let currentIntroIndex = 0;
+        let isPlayingIntro = true;
+
+        // Video scenarios mapping (after intro sequence)
+        const videoScenarios = {
+            trustPath: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+                pauseAt: 10,
+                choices: {
+                    trustThem: 'badEnding',
+                    runAway: 'escapeEnding'
+                }
+            },
+            runPath: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                pauseAt: 8,
+                choices: {
+                    trustThem: 'neutralEnding',
+                    runAway: 'goodEnding'
+                }
+            },
+            badEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                pauseAt: null
+            },
+            goodEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+                pauseAt: null
+            },
+            escapeEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+                pauseAt: null
+            },
+            neutralEnding: {
+                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+                pauseAt: null
+            }
+        };
+
+        let currentScenario = null;
+        let hasShownChoices = false;
+        let choiceTimeout = null;
+
+        // Play intro sequence
+        function playIntroSequence() {
+            if (currentIntroIndex < introSequence.length) {
+                video.src = introSequence[currentIntroIndex];
+                video.load();
+                video.onloadeddata = () => {
+                    video.play().catch(err => {
+                        console.error('Video play failed:', err);
+                    });
+                };
+            }
+        }
+
+        // Handle video ended event
+        video.addEventListener('ended', () => {
+            if (isPlayingIntro) {
+                // Move to next video in intro sequence
+                currentIntroIndex++;
+                
+                if (currentIntroIndex < introSequence.length) {
+                    // Play next intro video
+                    playIntroSequence();
+                } else {
+                    // Intro sequence finished, show choices
+                    isPlayingIntro = false;
+                    showChoices();
+                }
+            } else {
+                console.log('Video ended:', currentScenario);
+            }
+        });
+
+        // Load video scenario (for branching paths after intro)
+        function loadScenario(scenarioKey) {
+            const scenario = videoScenarios[scenarioKey];
+            if (!scenario) return;
+
+            hasShownChoices = false;
+            currentScenario = scenarioKey;
+            isPlayingIntro = false;
+
+            video.src = scenario.src;
+            video.load();
+
+            video.onloadeddata = () => {
+                video.play().catch(err => {
+                    console.error('Video play failed:', err);
+                });
+            };
+        }
+
+        // Monitor video time (for scenarios with pauseAt)
+        video.addEventListener('timeupdate', () => {
+            if (!isPlayingIntro && currentScenario) {
+                const scenario = videoScenarios[currentScenario];
+
+                if (scenario.pauseAt && !hasShownChoices && video.currentTime >= scenario.pauseAt) {
+                    video.pause();
+                    showChoices();
+                    hasShownChoices = true;
+                }
+            }
+        });
+
+        // Show choice buttons with timer
+        function showChoices() {
+            choiceContainer.classList.add('visible');
+            timerContainer.classList.add('active');
+
+            // Set timer duration CSS variable
+            timerCenter.style.setProperty('--timer-duration', `${CHOICE_TIMER_DURATION}s`);
+
+            // Start timer animation
+            timerCenter.classList.add('animating');
+
+            // Auto-select random choice if time runs out
+            choiceTimeout = setTimeout(() => {
+                const randomChoice = Math.random() > 0.5 ? 'trustThem' : 'runAway';
+                handleChoice(randomChoice);
+            }, CHOICE_TIMER_DURATION * 1000);
+        }
+
+        // Hide choices and timer
+        function hideChoices() {
+            choiceContainer.classList.remove('visible');
+            timerContainer.classList.remove('active');
+            timerCenter.classList.remove('animating');
+
+            if (choiceTimeout) {
+                clearTimeout(choiceTimeout);
+                choiceTimeout = null;
+            }
+        }
+
+        // Handle choice clicks
+        choiceA.addEventListener('click', () => {
+            handleChoice('trustThem');
+        });
+
+        choiceB.addEventListener('click', () => {
+            handleChoice('runAway');
+        });
+
+        function handleChoice(choice) {
+            hideChoices();
+
+            if (currentScenario) {
+                const scenario = videoScenarios[currentScenario];
+                const nextScenario = scenario.choices[choice];
+
+                if (nextScenario) {
+                    loadScenario(nextScenario);
+                } else {
+                    video.play();
+                }
+            } else {
+                // First choice after intro sequence
+                if (choice === 'trustThem') {
+                    loadScenario('trustPath');
+                } else {
+                    loadScenario('runPath');
+                }
+            }
+        }
+
+        // Back button
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            video.pause();
+            video.currentTime = 0;
+            hideChoices();
+            currentIntroIndex = 0;
+            isPlayingIntro = true;
+            currentScenario = null;
+            window.location.href = 'intro.html';
+        });
+
+        // Start playing intro sequence on page load
+        playIntroSequence();
+    </script>
+</body>
+</html>
