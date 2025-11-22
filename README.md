@@ -69,5 +69,5 @@ No build step required. Just open `index.html` in your browser:
 
 ## Credits
 - CRT image: [CodePen CDN](https://s3-us-west-2.amazonaws.com/s.cdpn.io/86186/crt.png)
-- Video samples: Google GTV sample videos
+- Video samples: Google GTV sample videos and me :>
 - Glitch/matrix/VCR effect code: Custom, inspired by CodePen and open-source demos
