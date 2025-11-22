@@ -1,7 +1,7 @@
 # Scam Awareness Interactive Website
 
 ## Overview
-HelpDes is a single-page interactive web app with a retro TV aesthetic, designed to raise scam awareness. It features animated glitch effects, matrix backgrounds, VCR overlays, and branching video scenarios.
+Memoir of Agony is a single-page interactive web app with a retro TV aesthetic, designed to raise scam awareness. It features animated glitch effects, matrix backgrounds, VCR overlays, and branching video scenarios.
 
 ## Features
 - **Matrix background**: Animated 80x50 character grid for a hacker vibe
