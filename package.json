@@ -1,0 +1,15 @@
+{
+  "name": "helpdes",
+  "version": "1.0.0",
+  "description": "## Overview Memoir of Agony is a single-page interactive web app with a retro TV aesthetic, designed to raise scam awareness. It features animated glitch effects, matrix backgrounds, VCR overlays, and branching video scenarios.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cloudinary": "^2.8.0"
+  }
+}

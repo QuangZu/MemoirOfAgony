@@ -407,7 +407,7 @@
                         <div id="screen">
                             <!-- Full screen video -->
                             <video id="mainVideo" class="video" preload="auto" muted>
-                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                                <source src="https://res.cloudinary.com/dxg8llcr2/video/upload/v1763815014/video/Shot_no.1_pwxqdi.mp4" type="video/mp4">
                             </video>
                         </div>
                     </div>
@@ -446,9 +446,42 @@
 
     <script>
         // ============================================
-        // VIDEO INTERACTION LOGIC
+        // VIDEO CONFIGURATION - EDIT VIDEOS HERE
         // ============================================
+        
+        const CONFIG = {
+            CHOICE_TIMER: 10, // seconds
+            
+            // Intro videos (play sequentially on load)
+            INTRO: [
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833271/2_3_4_kywdfr.mp4'
+            ],
+            
+            // Branching scenarios
+            SCENARIOS: {
+                choicePoint: {
+                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833271/6_7_8_bca7ij.mp4',
+                    buttons: { left: 'Apply', right: 'Go Home' },
+                    next: { left: 'applyPath', right: 'goHomePath' }
+                },
+                applyPath: {
+                    videos: [
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833277/9_10_11_t13qdx.mp4'
+                    ]
+                },
+                goHomePath: {
+                    videos: [
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833275/minh_di_ve_v7omm6.mp4',
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4'
+                    ]
+                }
+            }
+        };
 
+        // ============================================
+        // PLAYER LOGIC
+        // ============================================
+        
         const video = document.getElementById('mainVideo');
         const choiceContainer = document.getElementById('choiceContainer');
         const timerContainer = document.getElementById('timerContainer');
@@ -457,201 +490,108 @@
         const choiceB = document.getElementById('choiceB');
         const backBtn = document.getElementById('backBtn');
 
-        const CHOICE_TIMER_DURATION = 10; // 10 seconds to choose
-
-        // Initial intro sequence - Shot no.1 to Shot no.7
-        const introSequence = [
-            'video/Shot no.1.mp4',
-            'video/Shot no.2.mp4',
-            'video/Shot no.3.mp4',
-            'video/Shot no.4.mp4',
-            'video/Shot no.5.mp4',
-            'video/Shot no.6.mp4',
-            'video/Shot no.7.mp4'
-        ];
-
-        let currentIntroIndex = 0;
-        let isPlayingIntro = true;
-
-        // Video scenarios mapping (after intro sequence)
-        const videoScenarios = {
-            trustPath: {
-                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-                pauseAt: 10,
-                choices: {
-                    trustThem: 'badEnding',
-                    runAway: 'escapeEnding'
-                }
-            },
-            runPath: {
-                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-                pauseAt: 8,
-                choices: {
-                    trustThem: 'neutralEnding',
-                    runAway: 'goodEnding'
-                }
-            },
-            badEnding: {
-                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-                pauseAt: null
-            },
-            goodEnding: {
-                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-                pauseAt: null
-            },
-            escapeEnding: {
-                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-                pauseAt: null
-            },
-            neutralEnding: {
-                src: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
-                pauseAt: null
-            }
+        let state = {
+            intro: { index: 0, playing: true },
+            sequence: { index: 0, videos: null },
+            scenario: null,
+            timer: null
         };
 
-        let currentScenario = null;
-        let hasShownChoices = false;
-        let choiceTimeout = null;
-
-        // Play intro sequence
-        function playIntroSequence() {
-            if (currentIntroIndex < introSequence.length) {
-                video.src = introSequence[currentIntroIndex];
-                video.load();
-                video.onloadeddata = () => {
-                    video.play().catch(err => {
-                        console.error('Video play failed:', err);
-                    });
-                };
-            }
-        }
-
-        // Handle video ended event
-        video.addEventListener('ended', () => {
-            if (isPlayingIntro) {
-                // Move to next video in intro sequence
-                currentIntroIndex++;
-                
-                if (currentIntroIndex < introSequence.length) {
-                    // Play next intro video
-                    playIntroSequence();
-                } else {
-                    // Intro sequence finished, show choices
-                    isPlayingIntro = false;
-                    showChoices();
-                }
-            } else {
-                console.log('Video ended:', currentScenario);
-            }
-        });
-
-        // Load video scenario (for branching paths after intro)
-        function loadScenario(scenarioKey) {
-            const scenario = videoScenarios[scenarioKey];
-            if (!scenario) return;
-
-            hasShownChoices = false;
-            currentScenario = scenarioKey;
-            isPlayingIntro = false;
-
-            video.src = scenario.src;
+        // Play video
+        function play(url) {
+            video.src = url;
             video.load();
-
-            video.onloadeddata = () => {
-                video.play().catch(err => {
-                    console.error('Video play failed:', err);
-                });
-            };
+            video.onloadeddata = () => video.play().catch(e => console.error('Play failed:', e));
         }
 
-        // Monitor video time (for scenarios with pauseAt)
-        video.addEventListener('timeupdate', () => {
-            if (!isPlayingIntro && currentScenario) {
-                const scenario = videoScenarios[currentScenario];
+        // Load scenario
+        function loadScenario(key) {
+            const s = CONFIG.SCENARIOS[key];
+            if (!s) return;
 
-                if (scenario.pauseAt && !hasShownChoices && video.currentTime >= scenario.pauseAt) {
-                    video.pause();
-                    showChoices();
-                    hasShownChoices = true;
-                }
+            state.scenario = key;
+            state.intro.playing = false;
+
+            if (s.buttons) {
+                choiceA.textContent = s.buttons.left;
+                choiceB.textContent = s.buttons.right;
+                choiceA.dataset.next = s.next.left;
+                choiceB.dataset.next = s.next.right;
             }
-        });
 
-        // Show choice buttons with timer
+            if (s.videos) {
+                state.sequence = { index: 0, videos: s.videos };
+                play(s.videos[0]);
+            } else if (s.video) {
+                state.sequence = { index: 0, videos: null };
+                play(s.video);
+            }
+        }
+
+        // Show/hide choices
         function showChoices() {
             choiceContainer.classList.add('visible');
             timerContainer.classList.add('active');
-
-            // Set timer duration CSS variable
-            timerCenter.style.setProperty('--timer-duration', `${CHOICE_TIMER_DURATION}s`);
-
-            // Start timer animation
+            timerCenter.style.setProperty('--timer-duration', `${CONFIG.CHOICE_TIMER}s`);
             timerCenter.classList.add('animating');
 
-            // Auto-select random choice if time runs out
-            choiceTimeout = setTimeout(() => {
-                const randomChoice = Math.random() > 0.5 ? 'trustThem' : 'runAway';
-                handleChoice(randomChoice);
-            }, CHOICE_TIMER_DURATION * 1000);
+            state.timer = setTimeout(() => {
+                handleChoice(Math.random() > 0.5 ? choiceA.dataset.next : choiceB.dataset.next);
+            }, CONFIG.CHOICE_TIMER * 1000);
         }
 
-        // Hide choices and timer
         function hideChoices() {
             choiceContainer.classList.remove('visible');
             timerContainer.classList.remove('active');
             timerCenter.classList.remove('animating');
-
-            if (choiceTimeout) {
-                clearTimeout(choiceTimeout);
-                choiceTimeout = null;
+            if (state.timer) {
+                clearTimeout(state.timer);
+                state.timer = null;
             }
         }
 
-        // Handle choice clicks
-        choiceA.addEventListener('click', () => {
-            handleChoice('trustThem');
-        });
-
-        choiceB.addEventListener('click', () => {
-            handleChoice('runAway');
-        });
-
-        function handleChoice(choice) {
+        // Handle choice
+        function handleChoice(next) {
             hideChoices();
+            if (next) loadScenario(next);
+        }
 
-            if (currentScenario) {
-                const scenario = videoScenarios[currentScenario];
-                const nextScenario = scenario.choices[choice];
-
-                if (nextScenario) {
-                    loadScenario(nextScenario);
+        // Video ended event
+        video.addEventListener('ended', () => {
+            if (state.intro.playing) {
+                state.intro.index++;
+                if (state.intro.index < CONFIG.INTRO.length) {
+                    play(CONFIG.INTRO[state.intro.index]);
                 } else {
-                    video.play();
+                    loadScenario('choicePoint');
+                }
+            } else if (state.sequence.videos) {
+                state.sequence.index++;
+                if (state.sequence.index < state.sequence.videos.length) {
+                    play(state.sequence.videos[state.sequence.index]);
+                } else {
+                    state.sequence.videos = null;
                 }
             } else {
-                // First choice after intro sequence
-                if (choice === 'trustThem') {
-                    loadScenario('trustPath');
-                } else {
-                    loadScenario('runPath');
-                }
+                const s = CONFIG.SCENARIOS[state.scenario];
+                if (s && s.next) showChoices();
             }
-        }
+        });
+
+        // Button clicks
+        choiceA.addEventListener('click', () => handleChoice(choiceA.dataset.next));
+        choiceB.addEventListener('click', () => handleChoice(choiceB.dataset.next));
 
         // Back button
         backBtn.addEventListener('click', (e) => {
             e.preventDefault();
             video.pause();
-            video.currentTime = 0;
             hideChoices();
-            currentIntroIndex = 0;
-            isPlayingIntro = true;
-            currentScenario = null;
             window.location.href = 'intro.html';
         });
 
-        // Start playing intro sequence on page load
-        playIntroSequence();
+        // Start
+        play(CONFIG.INTRO[0]);
     </script>
 </body>
 </html>
