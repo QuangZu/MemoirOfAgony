@@ -149,10 +149,10 @@
 
         .intro-person-image {
             position: absolute;
-            top: 50%;
-            left: 52%;
-            transform: translate(-50%, -50%);
-            max-width: 600px;
+            bottom: -65px;
+            left: 53%;
+            transform: translateX(-50%);
+            max-width: 930px;
             width: 100%;
             height: auto;
             z-index: 2;
@@ -555,6 +555,7 @@
     <!-- External Scripts -->
     <script src="dat.gui.min.js"></script>
     <script src="vcr.js"></script>
+    <script src="audio.js"></script>
 
     <script>
         // ============================================
@@ -589,32 +590,6 @@
         }
 
         createMatrixBackground();
-
-        // ============================================
-        // CREATE GLITCH TITLE FOR SCENE 2
-        // ============================================
-
-        const introTitleLines = ["INTRODUCING", "CHARACTER"];
-
-        // Populate all 9 glitch lines for intro title
-        for (let i = 1; i <= 9; i++) {
-            const introElement = document.getElementById(i === 1 ? 'introTitle' : `introTitle${i}`);
-
-            introTitleLines.forEach((line, lineIndex) => {
-                if (lineIndex > 0) {
-                    const br = document.createElement('span');
-                    br.className = 'title-line';
-                    introElement.appendChild(br);
-                }
-
-                line.split('').forEach(char => {
-                    const span = document.createElement('span');
-                    span.className = lineIndex === 1 ? 'letter character-letter' : 'letter';
-                    span.textContent = char === ' ' ? '\u00A0' : char;
-                    introElement.appendChild(span);
-                });
-            });
-        }
 
         // ============================================
         // NAVIGATION
