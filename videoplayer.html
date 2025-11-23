@@ -446,7 +446,7 @@
 
     <script>
         // ============================================
-        // VIDEO CONFIGURATION - EDIT VIDEOS HERE
+        // VIDEO CONFIGURATION
         // ============================================
         
         const CONFIG = {
@@ -508,8 +508,9 @@
                 },
                 disagreeOffer: {
                     videos: [
-                        // TODO: Add disagree video link here
-                    ]
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/minh_tu_choi_offer_cua_kien_uxjvnd.mp4'
+                    ],
+                    afterSequence: 'pvanChoice'
                 },
                 callPolice: {
                     videos: [
@@ -518,7 +519,7 @@
                 },
                 makeOffer: {
                     videos: [
-                        // TODO: Add make offer video link here
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763894479/minh_lam_viec_kien_offer_bkknra.mp4'
                     ]
                 }
             }
@@ -547,6 +548,14 @@
         function play(url) {
             video.src = url;
             video.load();
+            
+            // Unmute for the specific interview video
+            if (url === 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/19_-_24_minh_phong_van_tgfjqu.mp4' || url === 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4') {
+                video.muted = false;
+            } else {
+                video.muted = true;
+            }
+            
             video.onloadeddata = () => video.play().catch(e => console.error('Play failed:', e));
         }
 
