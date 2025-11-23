@@ -441,8 +441,8 @@
     </div>
 
     <!-- External Scripts -->
-    <script src="dat.gui.min.js"></script>
-    <script src="vcr.js"></script>
+    <script src="effect/dat.gui.min.js"></script>
+    <script src="effect/vcr.js"></script>
 
     <script>
         // ============================================
@@ -450,9 +450,9 @@
         // ============================================
         
         const CONFIG = {
-            CHOICE_TIMER: 10, // seconds
+            CHOICE_TIMER: 10,
             
-            // Intro videos (play sequentially on load)
+            // Intro videos
             INTRO: [
                 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833271/2_3_4_kywdfr.mp4'
             ],
@@ -467,12 +467,58 @@
                 applyPath: {
                     videos: [
                         'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833277/9_10_11_t13qdx.mp4'
-                    ]
+                    ],
+                    afterSequence: 'applyChoice'
                 },
                 goHomePath: {
                     videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833275/minh_di_ve_v7omm6.mp4',
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4'
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763880053/Minhvenha_rlfkay.mp4',
+                    ],
+                    afterSequence: 'offerChoice'
+                },
+                applyChoice:{
+                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876931/co_nop_ho_chieu_ko_uapxjz.mp4',
+                    afterSequence: 'pvanChoice'
+                },
+                pvanChoice: {
+                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/19_-_24_minh_phong_van_tgfjqu.mp4',
+                    buttons: { left: 'Disagree', right: 'Agree' },
+                    next: { left: 'badending', right: 'secondchanceending' }
+                },
+                badending: {
+                    videos: [
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876934/minh_bi_bat_coc_mncbhh.mp4'
+                    ]
+                },
+                secondchanceending: {
+                    videos: [
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876933/minh_ne_dc_bat_coc_dhyb9d.mp4'
+                    ]
+                },
+                offerChoice: {
+                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4',
+                    buttons: { left: 'Agree', right: 'Disagree' },
+                    next: { left: 'agreeOffer', right: 'disagreeOffer' }
+                },
+                agreeOffer: {
+                    videos:
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876931/minh_dong_y_offer_cua_kien_b3webk.mp4',
+                    buttons: { left: 'Call Police', right: 'Make Offer' },
+                    next: { left: 'callPolice', right: 'makeOffer' }
+                },
+                disagreeOffer: {
+                    videos: [
+                        // TODO: Add disagree video link here
+                    ]
+                },
+                callPolice: {
+                    videos: [
+                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833272/minh_bao_casat_zun6t1.mp4'
+                    ]
+                },
+                makeOffer: {
+                    videos: [
+                        // TODO: Add make offer video link here
                     ]
                 }
             }
@@ -519,12 +565,16 @@
                 choiceB.dataset.next = s.next.right;
             }
 
-            if (s.videos) {
+            if (s.videos && s.videos.length > 0) {
                 state.sequence = { index: 0, videos: s.videos };
                 play(s.videos[0]);
-            } else if (s.video) {
+            } else if (s.video && s.video !== '') {
                 state.sequence = { index: 0, videos: null };
                 play(s.video);
+            } else {
+                // No video to play, show choices immediately
+                state.sequence = { index: 0, videos: null };
+                showChoices();
             }
         }
 
@@ -570,7 +620,15 @@
                 if (state.sequence.index < state.sequence.videos.length) {
                     play(state.sequence.videos[state.sequence.index]);
                 } else {
+                    // Sequence finished - check if there's a next scenario
+                    const s = CONFIG.SCENARIOS[state.scenario];
                     state.sequence.videos = null;
+                    
+                    if (s.afterSequence) {
+                        loadScenario(s.afterSequence);
+                    } else if (s.next) {
+                        showChoices();
+                    }
                 }
             } else {
                 const s = CONFIG.SCENARIOS[state.scenario];
