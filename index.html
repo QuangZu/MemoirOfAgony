@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/Asset 5.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -137,11 +138,22 @@
             display: inline-block;
             color: #DE0000;
             font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
-            margin-top: 40px;
+            margin-top: 10px;
         }
 
         .title-line {
             display: block;
+        }
+
+        /* Homepage Image */
+        .homepage-image {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            height: auto;
+            z-index: 10002;
         }
 
         /* Apply button */
@@ -383,6 +395,9 @@
                 <div class="screen-wrapper">
                     <div class="screen-wrapper">
                         <div class="content-wrapper">
+                            <!-- Homepage Image -->
+                            <img src="img/homepage.png" alt="Homepage" class="homepage-image" />
+                            
                             <div class="title-container">
                                 <div class="chapter-title">CH. 09</div>
                                 <div class="glitch glitch-title" id="glitchContainer">

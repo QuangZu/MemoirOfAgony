@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/Asset 5.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,6 +156,17 @@
         .asset3-button:hover {
             transform: translateY(-50%) scale(1.05) rotate(-2deg);
             filter: brightness(1.2) drop-shadow(0 10px 30px rgba(222, 0, 0, 0.5));
+        }
+
+        /* About Image */
+        .about-image {
+            position: absolute;
+            right: 0;
+            top: 70%;
+            transform: translateY(-50%);
+            max-width: 90%;
+            height: auto;
+            z-index: 10002;
         }
 
         /* Navigation Menu */
@@ -314,6 +326,9 @@
                 <div class="screen-wrapper">
                     <div class="screen-wrapper">
                         <div class="content-wrapper">
+                            <!-- About Image -->
+                            <img src="img/about.png" alt="About" class="about-image" />
+                            
                             <div class="title-container">
                                 <!-- About Title Text -->
                                 <div class="about-title">

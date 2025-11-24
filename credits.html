@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/Asset 5.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -144,6 +145,17 @@
         /* Line break for title */
         .title-line {
             display: block;
+        }
+
+        /* Credits Image */
+        .credits-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            height: auto;
+            z-index: 10002;
         }
 
         /* Navigation Menu */
@@ -305,6 +317,9 @@
                 <div class="screen-wrapper">
                     <div class="screen-wrapper">
                         <div class="content-wrapper">
+                            <!-- Credits Image -->
+                            <img src="img/credit.png" alt="Credits" class="credits-image" />
+                            
                             <div class="title-container">
                                 <div class="glitch glitch-title" id="glitchContainer">
                                     <div class="line" id="creditsTitle"></div>
