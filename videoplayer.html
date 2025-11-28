@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/Asset 5.png">
+    <link rel="icon" type="image/png" href="img/Asset 1.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -136,6 +136,30 @@
             pointer-events: auto;
         }
 
+        /* Skip button (top-right) */
+        .skip-btn {
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+            background: rgba(255,255,255,0.06);
+            color: #ffffff;
+            border: 2px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 10006;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(6px);
+        }
+
+        .skip-btn:hover {
+            background: rgba(255,255,255,0.12);
+            color: #000000;
+        }
+
         .back-btn::before {
             content: '';
             position: absolute;
@@ -240,7 +264,6 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
 
         .choice-btn:first-child {
@@ -404,10 +427,12 @@
                         <button class="back-btn" id="backBtn">
                             <span>Back</span>
                         </button>
+                        <!-- Skip Button -->
+                        <button class="skip-btn" id="skipBtn">Skip</button>
                         
                         <div id="screen">
                             <!-- Full screen video -->
-                            <video id="mainVideo" class="video" preload="auto" muted>
+                            <video id="mainVideo" class="video" preload="auto" muted playsinline>
                                 <source src="https://res.cloudinary.com/dxg8llcr2/video/upload/v1763815014/video/Shot_no.1_pwxqdi.mp4" type="video/mp4">
                             </video>
                         </div>
@@ -416,11 +441,9 @@
             </div>
         </div>
 
-        <!-- VCR Effects -->
+        <!-- VCR Effects (Reduced for Performance) -->
         <div class="vignette"></div>
         <div class="scanlines"></div>
-        <canvas class="vcr"></canvas>
-        <canvas class="snow"></canvas>
 
         <!-- Choice buttons with timer -->
         <div class="choice-container" id="choiceContainer">
@@ -445,222 +468,6 @@
     <script src="effect/dat.gui.min.js"></script>
     <script src="effect/vcr.js"></script>
     <script src="audio.js"></script>
-
-    <script>
-        // ============================================
-        // VIDEO CONFIGURATION
-        // ============================================
-        
-        const CONFIG = {
-            CHOICE_TIMER: 10,
-            
-            // Intro videos
-            INTRO: [
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833271/2_3_4_kywdfr.mp4'
-            ],
-            
-            // Branching scenarios
-            SCENARIOS: {
-                choicePoint: {
-                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833271/6_7_8_bca7ij.mp4',
-                    buttons: { left: 'Apply', right: 'Go Home' },
-                    next: { left: 'applyPath', right: 'goHomePath' }
-                },
-                applyPath: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833277/9_10_11_t13qdx.mp4'
-                    ],
-                    afterSequence: 'applyChoice'
-                },
-                goHomePath: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763880053/Minhvenha_rlfkay.mp4',
-                    ],
-                    afterSequence: 'offerChoice'
-                },
-                applyChoice:{
-                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876931/co_nop_ho_chieu_ko_uapxjz.mp4',
-                    afterSequence: 'pvanChoice'
-                },
-                pvanChoice: {
-                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/19_-_24_minh_phong_van_tgfjqu.mp4',
-                    buttons: { left: 'Disagree', right: 'Agree' },
-                    next: { left: 'badending', right: 'secondchanceending' }
-                },
-                badending: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876934/minh_bi_bat_coc_mncbhh.mp4'
-                    ]
-                },
-                secondchanceending: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876933/minh_ne_dc_bat_coc_dhyb9d.mp4'
-                    ]
-                },
-                offerChoice: {
-                    video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4',
-                    buttons: { left: 'Agree', right: 'Disagree' },
-                    next: { left: 'agreeOffer', right: 'disagreeOffer' }
-                },
-                agreeOffer: {
-                    videos:
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876931/minh_dong_y_offer_cua_kien_b3webk.mp4',
-                    buttons: { left: 'Call Police', right: 'Make Offer' },
-                    next: { left: 'callPolice', right: 'makeOffer' }
-                },
-                disagreeOffer: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/minh_tu_choi_offer_cua_kien_uxjvnd.mp4'
-                    ],
-                    afterSequence: 'pvanChoice'
-                },
-                callPolice: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833272/minh_bao_casat_zun6t1.mp4'
-                    ]
-                },
-                makeOffer: {
-                    videos: [
-                        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763894479/minh_lam_viec_kien_offer_bkknra.mp4'
-                    ]
-                }
-            }
-        };
-
-        // ============================================
-        // PLAYER LOGIC
-        // ============================================
-        
-        const video = document.getElementById('mainVideo');
-        const choiceContainer = document.getElementById('choiceContainer');
-        const timerContainer = document.getElementById('timerContainer');
-        const timerCenter = document.getElementById('timerCenter');
-        const choiceA = document.getElementById('choiceA');
-        const choiceB = document.getElementById('choiceB');
-        const backBtn = document.getElementById('backBtn');
-
-        let state = {
-            intro: { index: 0, playing: true },
-            sequence: { index: 0, videos: null },
-            scenario: null,
-            timer: null
-        };
-
-        // Play video
-        function play(url) {
-            video.src = url;
-            video.load();
-            
-            // Unmute for the specific interview video
-            if (url === 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/19_-_24_minh_phong_van_tgfjqu.mp4' || url === 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4') {
-                video.muted = false;
-            } else {
-                video.muted = true;
-            }
-            
-            video.onloadeddata = () => video.play().catch(e => console.error('Play failed:', e));
-        }
-
-        // Load scenario
-        function loadScenario(key) {
-            const s = CONFIG.SCENARIOS[key];
-            if (!s) return;
-
-            state.scenario = key;
-            state.intro.playing = false;
-
-            if (s.buttons) {
-                choiceA.textContent = s.buttons.left;
-                choiceB.textContent = s.buttons.right;
-                choiceA.dataset.next = s.next.left;
-                choiceB.dataset.next = s.next.right;
-            }
-
-            if (s.videos && s.videos.length > 0) {
-                state.sequence = { index: 0, videos: s.videos };
-                play(s.videos[0]);
-            } else if (s.video && s.video !== '') {
-                state.sequence = { index: 0, videos: null };
-                play(s.video);
-            } else {
-                // No video to play, show choices immediately
-                state.sequence = { index: 0, videos: null };
-                showChoices();
-            }
-        }
-
-        // Show/hide choices
-        function showChoices() {
-            choiceContainer.classList.add('visible');
-            timerContainer.classList.add('active');
-            timerCenter.style.setProperty('--timer-duration', `${CONFIG.CHOICE_TIMER}s`);
-            timerCenter.classList.add('animating');
-
-            state.timer = setTimeout(() => {
-                handleChoice(Math.random() > 0.5 ? choiceA.dataset.next : choiceB.dataset.next);
-            }, CONFIG.CHOICE_TIMER * 1000);
-        }
-
-        function hideChoices() {
-            choiceContainer.classList.remove('visible');
-            timerContainer.classList.remove('active');
-            timerCenter.classList.remove('animating');
-            if (state.timer) {
-                clearTimeout(state.timer);
-                state.timer = null;
-            }
-        }
-
-        // Handle choice
-        function handleChoice(next) {
-            hideChoices();
-            if (next) loadScenario(next);
-        }
-
-        // Video ended event
-        video.addEventListener('ended', () => {
-            if (state.intro.playing) {
-                state.intro.index++;
-                if (state.intro.index < CONFIG.INTRO.length) {
-                    play(CONFIG.INTRO[state.intro.index]);
-                } else {
-                    loadScenario('choicePoint');
-                }
-            } else if (state.sequence.videos) {
-                state.sequence.index++;
-                if (state.sequence.index < state.sequence.videos.length) {
-                    play(state.sequence.videos[state.sequence.index]);
-                } else {
-                    // Sequence finished - check if there's a next scenario
-                    const s = CONFIG.SCENARIOS[state.scenario];
-                    state.sequence.videos = null;
-                    
-                    if (s.afterSequence) {
-                        loadScenario(s.afterSequence);
-                    } else if (s.next) {
-                        showChoices();
-                    }
-                }
-            } else {
-                const s = CONFIG.SCENARIOS[state.scenario];
-                if (s && s.next) showChoices();
-            }
-        });
-
-        // Button clicks
-        choiceA.addEventListener('click', () => handleChoice(choiceA.dataset.next));
-        choiceB.addEventListener('click', () => handleChoice(choiceB.dataset.next));
-
-        // Back button
-        backBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            video.pause();
-            hideChoices();
-            window.location.href = 'intro.html';
-        });
-
-        // Start
-        play(CONFIG.INTRO[0]);
-    </script>
+    <script src="videoplayer.js"></script>
 </body>
 </html>

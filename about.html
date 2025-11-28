@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/Asset 5.png">
+    <link rel="icon" type="image/png" href="img/Asset 1.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -216,6 +216,84 @@
             height: auto;
         }
 
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-image {
+                max-width: 95%;
+                top: 65%;
+            }
+            
+            .about-title {
+                font-size: clamp(1.3rem, 2.5vw, 2.5rem);
+            }
+            
+            .asset3-button {
+                max-width: 35%;
+                left: 3%;
+            }
+            
+            .content-wrapper {
+                width: 95%;
+                height: 92%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .about-image {
+                max-width: 100%;
+                top: 68%;
+                right: -5%;
+            }
+            
+            .about-title {
+                font-size: clamp(1.1rem, 2.2vw, 2rem);
+                letter-spacing: 1.5px;
+            }
+            
+            .asset3-button {
+                max-width: 40%;
+                left: 2%;
+            }
+            
+            .nav-menu {
+                gap: 20px;
+                font-size: 0.5rem;
+                bottom: 18px;
+            }
+            
+            .logo-container img {
+                width: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .about-image {
+                display: none;
+            }
+            
+            .about-title {
+                font-size: clamp(0.9rem, 2vw, 1.5rem);
+                letter-spacing: 1px;
+                line-height: 1.4;
+            }
+            
+            .asset3-button {
+                max-width: 45%;
+                left: 50%;
+                top: 60%;
+                transform: translate(-50%, -50%);
+            }
+            
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.45rem;
+            }
+            
+            .logo-container img {
+                width: 50px;
+            }
+        }
+        
         /* Hide dat.gui controls */
         .dg.ac {
             display: none !important;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/Asset 5.png">
+    <link rel="icon" type="image/png" href="img/Asset 1.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -272,9 +272,81 @@
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .homepage-image {
+                max-width: 90%;
+            }
+            
+            .content-wrapper {
+                width: 95%;
+                height: 92%;
+            }
+            
+            .chapter-title {
+                font-size: 2rem;
+                left: 15px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .glitch-title {
                 letter-spacing: 4px;
+                font-size: clamp(40px, 8vw, 120px);
+                margin-top: 5px;
+            }
+            
+            .homepage-image {
+                max-width: 95%;
+                top: 52%;
+            }
+            
+            .chapter-title {
+                font-size: 1.5rem;
+                left: 10px;
+            }
+            
+            .apply-btn {
+                padding: 0px 35px;
+                letter-spacing: 3px;
+            }
+            
+            .nav-menu {
+                gap: 20px;
+                font-size: 0.5rem;
+                bottom: 18px;
+            }
+            
+            .logo-container img {
+                width: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .glitch-title {
+                font-size: clamp(30px, 7vw, 80px);
+                letter-spacing: 2px;
+            }
+            
+            .homepage-image {
+                max-width: 98%;
+            }
+            
+            .chapter-title {
+                font-size: 1.2rem;
+            }
+            
+            .apply-btn {
+                padding: 0px 25px;
+                font-size: 1rem;
+            }
+            
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.45rem;
+            }
+            
+            .logo-container img {
+                width: 50px;
             }
         }
 

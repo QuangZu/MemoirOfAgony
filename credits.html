@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/Asset 5.png">
+    <link rel="icon" type="image/png" href="img/Asset 1.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -205,6 +205,64 @@
             height: auto;
         }
 
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .credits-image {
+                max-width: 90%;
+            }
+            
+            .glitch-title {
+                font-size: clamp(50px, 9vw, 150px);
+                letter-spacing: 15px;
+            }
+            
+            .content-wrapper {
+                width: 95%;
+                height: 92%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .credits-image {
+                max-width: 95%;
+            }
+            
+            .glitch-title {
+                font-size: clamp(40px, 8vw, 120px);
+                letter-spacing: 10px;
+            }
+            
+            .nav-menu {
+                gap: 20px;
+                font-size: 0.5rem;
+                bottom: 18px;
+            }
+            
+            .logo-container img {
+                width: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .credits-image {
+                max-width: 98%;
+            }
+            
+            .glitch-title {
+                font-size: clamp(30px, 7vw, 80px);
+                letter-spacing: 5px;
+            }
+            
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.45rem;
+            }
+            
+            .logo-container img {
+                width: 50px;
+            }
+        }
+        
         /* Hide dat.gui controls */
         .dg.ac {
             display: none !important;
@@ -318,7 +376,7 @@
                     <div class="screen-wrapper">
                         <div class="content-wrapper">
                             <!-- Credits Image -->
-                            <img src="img/credit.png" alt="Credits" class="credits-image" />
+                            <img src="img/Asset 14.png" alt="Credits" class="credits-image" />
                             
                             <div class="title-container">
                                 <div class="glitch glitch-title" id="glitchContainer">
