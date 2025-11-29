@@ -62,7 +62,6 @@
             }
         }, 50);
 
-        // Stop fwng sound if on videoplayer
         if (isVideoPlayer && fwngSound) {
             fwngSound.pause();
         }

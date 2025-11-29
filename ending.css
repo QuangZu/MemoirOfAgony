@@ -1,0 +1,319 @@
+/* ============================================
+   ENDING SCREEN STYLES
+   Shared CSS for all ending screens
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Barlow', sans-serif;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+}
+
+/* Background Image */
+#matrixBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+    background-image: url('img/Asset 8.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.matrix-wrapper {
+    display: none;
+}
+
+/* Main Scene */
+.ending-scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 100;
+    opacity: 1;
+}
+
+.screen-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.screen-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10003;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Ending Title Container */
+.ending-title-container {
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 10003;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* Ending Glitch Title */
+.ending-glitch-title {
+    font-size: clamp(60px, 10vw, 180px);
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 20px;
+    position: relative;
+    display: inline-block;
+    color: #DE0000;
+    font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+}
+
+.title-line {
+    display: block;
+}
+
+/* Menu Button */
+.menu-btn {
+    padding: 15px 60px;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+    background: #DE0000;
+    color: #000000;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 10003;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    font-weight: 900;
+}
+
+.menu-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.menu-btn:hover {
+    background: #B00000;
+    box-shadow: 0 0 20px #DE0000, 0 0 40px #DE0000;
+}
+
+.menu-btn:hover::before {
+    width: 300%;
+    height: 500%;
+}
+
+.menu-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+/* VCR Effects */
+.vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+}
+
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .ending-glitch-title {
+        font-size: clamp(50px, 9vw, 150px);
+        letter-spacing: 15px;
+    }
+    
+    .ending-title-container {
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ending-glitch-title {
+        font-size: clamp(40px, 8vw, 120px);
+        letter-spacing: 10px;
+    }
+    
+    .ending-title-container {
+        margin-bottom: 30px;
+    }
+    
+    .menu-btn {
+        padding: 12px 45px;
+        letter-spacing: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ending-glitch-title {
+        font-size: clamp(30px, 7vw, 80px);
+        letter-spacing: 5px;
+    }
+    
+    .ending-title-container {
+        margin-bottom: 25px;
+    }
+    
+    .menu-btn {
+        padding: 10px 35px;
+        font-size: 1rem;
+    }
+}
+
+/* Hide dat.gui controls */
+.dg.ac {
+    display: none !important;
+}
+
+/* Page transition animations */
+@keyframes tvTurnOn {
+    0% {
+        transform: scale(1, 0.001) translate3d(0, 0, 0);
+        filter: brightness(5);
+    }
+    10% {
+        transform: scale(1, 0.8) translate3d(0, 0, 0);
+    }
+    50% {
+        transform: scale(1, 1) translate3d(0, 0, 0);
+        filter: brightness(1.5) contrast(1.5);
+    }
+    100% {
+        transform: scale(1, 1) translate3d(0, 0, 0);
+        filter: brightness(1) contrast(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes staticNoise {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Static noise overlay */
+.static-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px
+        );
+    z-index: 99999;
+    pointer-events: none;
+    animation: staticNoise 0.1s infinite, fadeOut 0.8s ease-out 0.5s forwards;
+}
+
+.static-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.ending-scene {
+    animation: tvTurnOn 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+body {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Page exit animation */
+body.page-exit .ending-scene {
+    animation: fadeOut 0.5s ease-out forwards;
+}

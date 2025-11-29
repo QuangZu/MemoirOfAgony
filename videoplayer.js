@@ -42,12 +42,14 @@ const CONFIG = {
         badending: {
             videos: [
                 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876934/minh_bi_bat_coc_mncbhh.mp4'
-            ]
+            ],
+            endingPage: 'endings/badending.html'
         },
         secondchanceending: {
             videos: [
                 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331437/Minh_ke_chuyen_pvan_Kien_bao_Minh_di_can_than_dialogue_loerj3.mp4'
-            ]
+            ],
+            endingPage: 'endings/secondchanceending.html'
         },
         offerChoice: {
             video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331434/minh_ve_nha_kien_offer_viec_dialogue_izqz3g.mp4',
@@ -69,12 +71,14 @@ const CONFIG = {
         callPolice: {
             videos: [
                 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833272/minh_bao_casat_zun6t1.mp4'
-            ]
+            ],
+            endingPage: 'endings/trueending.html'
         },
         makeOffer: {
             videos: [
                 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763894479/minh_lam_viec_kien_offer_bkknra.mp4'
-            ]
+            ],
+            endingPage: 'endings/goodending.html'
         }
     }
 };
@@ -259,11 +263,14 @@ video.addEventListener('ended', () => {
         if (state.sequence.index < state.sequence.videos.length) {
             play(state.sequence.videos[state.sequence.index]);
         } else {
-            // Sequence finished - check if there's a next scenario
+            // Sequence finished - check if there's a next scenario or ending page
             const s = CONFIG.SCENARIOS[state.scenario];
             state.sequence.videos = null;
             
-            if (s.afterSequence) {
+            if (s.endingPage) {
+                // Redirect to ending page
+                window.location.href = s.endingPage;
+            } else if (s.afterSequence) {
                 loadScenario(s.afterSequence);
             } else if (s.next) {
                 showChoices();
