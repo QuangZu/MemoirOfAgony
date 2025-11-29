@@ -109,7 +109,7 @@ body {
 
 /* Menu Button */
 .menu-btn {
-    padding: 15px 60px;
+    padding: 0px 60px;
     font-size: clamp(1.2rem, 3vw, 2rem);
     font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
     background: #DE0000;
@@ -123,6 +123,7 @@ body {
     overflow: hidden;
     transition: all 0.3s ease;
     font-weight: 900;
+    margin-top: 50px;
 }
 
 .menu-btn::before {
