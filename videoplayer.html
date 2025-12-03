@@ -444,6 +444,19 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        /* Character-specific subtitle colors */
+        video::cue(v[voice="main"]) {
+            color: #ffffff; /* White - protagonist (Minh) */
+        }
+
+        video::cue(v[voice="light"]) {
+            color: #00ffff; /* Light cyan - friend (Kien) */
+        }
+
+        video::cue(v[voice="evil"]) {
+            color: #ff0000; /* Red - antagonists/danger */
+        }
+
         /* Red accent for emphasis (using voice tags in VTT) */
         video::cue(v[voice="danger"]) {
             color: #ff0000;
