@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="effect/glitch.css">
     <link rel="stylesheet" href="effect/hover_letter.css">
     <link rel="stylesheet" href="effect/vcr.css">
+    <link rel="stylesheet" href="effect/cursor.css">
 
     <title>Memoir of Agony</title>
 
@@ -289,7 +290,6 @@
             background: #ffffff;
             color: #000000;
             border-color: #ffffff;
-            transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
@@ -411,9 +411,67 @@
         body.page-exit .main-scene {
             animation: fadeOut 0.5s ease-out forwards;
         }
+
+        /* ============================================
+           SUBTITLE/CAPTION STYLING
+           ============================================ */
+        
+        /* Style all subtitle cues */
+        video::cue {
+            font-family: 'TT Travels Next', 'Barlow', sans-serif;
+            font-size: 1.8rem;
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.9),
+                0 0 10px rgba(0, 0, 0, 0.8);
+            line-height: 1.5;
+        }
+
+        /* Style for active/past cues */
+        video::cue(:past) {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Style for future cues (optional) */
+        video::cue(:future) {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Red accent for emphasis (using voice tags in VTT) */
+        video::cue(v[voice="danger"]) {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        /* Responsive subtitle sizing */
+        @media (max-width: 768px) {
+            video::cue {
+                font-size: 1.3rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            video::cue {
+                font-size: 1rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Custom VHS Cursor -->
+    <div class="custom-cursor" id="customCursor">
+        <div class="cursor-core"></div>
+        <div class="cursor-glitch cursor-glitch-1"></div>
+        <div class="cursor-glitch cursor-glitch-2"></div>
+        <div class="cursor-glitch cursor-glitch-3"></div>
+        <div class="cursor-noise"></div>
+    </div>
+
     <!-- Static noise overlay for TV turn-on effect -->
     <div class="static-overlay"></div>
 
@@ -431,9 +489,26 @@
                         <button class="skip-btn" id="skipBtn">Skip</button>
                         
                         <div id="screen">
-                            <!-- Full screen video -->
-                            <video id="mainVideo" class="video" preload="auto" muted playsinline>
+                            <!-- Full screen video with subtitles -->
+                            <video id="mainVideo" class="video" preload="auto" muted playsinline crossorigin="anonymous">
                                 <source src="https://res.cloudinary.com/dxg8llcr2/video/upload/v1763815014/video/Shot_no.1_pwxqdi.mp4" type="video/mp4">
+                                
+                                <!-- Vietnamese subtitles (default) -->
+                                <track 
+                                    kind="subtitles" 
+                                    src="subtitle/intro-vi.vtt" 
+                                    srclang="vi" 
+                                    label="Tiếng Việt"
+                                    default
+                                    id="track-vi">
+                                
+                                <!-- English subtitles -->
+                                <track 
+                                    kind="subtitles" 
+                                    src="subtitle/intro-en.vtt" 
+                                    srclang="en" 
+                                    label="English"
+                                    id="track-en">
                             </video>
                         </div>
                     </div>
@@ -469,5 +544,6 @@
     <script src="effect/vcr.js"></script>
     <script src="audio.js"></script>
     <script src="videoplayer.js"></script>
+    <script src="effect/cursor.js"></script>
 </body>
 </html>

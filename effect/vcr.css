@@ -3,7 +3,7 @@
    Adapted from vcr.scss
    ============================================ */
 
-canvas {
+canvas.vcr, canvas.snow {
     position: absolute;
     left: 0;
     top: 0;

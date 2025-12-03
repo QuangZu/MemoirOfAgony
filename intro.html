@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="effect/glitch.css">
     <link rel="stylesheet" href="effect/hover_letter.css">
     <link rel="stylesheet" href="effect/vcr.css">
+    <link rel="stylesheet" href="effect/cursor.css">
 
     <title>Memoir of Agony - Introduction</title>
 
@@ -150,10 +151,10 @@
 
         .intro-person-image {
             position: absolute;
-            bottom: -65px;
+            bottom: -74px;
             left: 53%;
             transform: translateX(-50%);
-            max-width: 930px;
+            max-width: 960px;
             width: 100%;
             height: auto;
             z-index: 2;
@@ -170,13 +171,30 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 60%;
-            width: 60%;
+            max-width: 70%;
+            width: 70%;
             height: auto;
             z-index: 1;
         }
 
         .intro-additional-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .intro-center-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 95%;
+            width: 95%;
+            height: auto;
+            z-index: 3;
+        }
+
+        .intro-center-image img {
             width: 100%;
             height: auto;
             object-fit: contain;
@@ -536,6 +554,15 @@
     </style>
 </head>
 <body>
+    <!-- Custom VHS Cursor -->
+    <div class="custom-cursor" id="customCursor">
+        <div class="cursor-core"></div>
+        <div class="cursor-glitch cursor-glitch-1"></div>
+        <div class="cursor-glitch cursor-glitch-2"></div>
+        <div class="cursor-glitch cursor-glitch-3"></div>
+        <div class="cursor-noise"></div>
+    </div>
+
     <!-- Static noise overlay for TV turn-on effect -->
     <div class="static-overlay"></div>
 
@@ -580,6 +607,9 @@
                                     </div>
                                     <div class="intro-additional-image">
                                         <img src="img/Asset 7.png" alt="Additional" />
+                                    </div>
+                                    <div class="intro-center-image">
+                                        <img src="img/trang co minh.png" alt="Center Image" />
                                     </div>
                                 </div>
                             </div>
@@ -672,5 +702,6 @@
             window.location.href = 'index.html';
         });
     </script>
+    <script src="effect/cursor.js"></script>
 </body>
 </html>

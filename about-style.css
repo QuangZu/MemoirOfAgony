@@ -1,0 +1,183 @@
+/* About page styles for Infinite Kinetic Grid */
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+  font-family: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+/* Background Image */
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url('img/Asset 8.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Main wrapper structure */
+#aboutPage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 100;
+  opacity: 1;
+}
+
+#aboutPage > .screen-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#aboutPage .screen-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#aboutPage .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10003;
+  position: relative;
+  width: 92%;
+  max-width: 1600px;
+  height: 90%;
+  max-height: 1000px;
+  box-sizing: border-box;
+}
+
+#gridCanvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  cursor: grab;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+#gridCanvas.grabbing {
+  cursor: grabbing;
+}
+
+/* Navigation Menu */
+.nav-menu {
+  position: absolute;
+  bottom: 23px;
+  left: 0px;
+  z-index: 10005;
+  display: flex;
+  gap: 30px;
+  font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  pointer-events: auto;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-decoration: none;
+}
+
+.nav-btn.active {
+  color: #DE0000;
+}
+
+.nav-btn:hover {
+  color: #DE0000;
+}
+
+/* Logo in bottom right */
+.logo-container {
+  position: absolute;
+  bottom: 1px;
+  right: 0px;
+  z-index: 10005;
+  pointer-events: none;
+}
+
+.logo-container img {
+  width: 75px;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu {
+    gap: 20px;
+    font-size: 0.5rem;
+    bottom: 18px;
+  }
+  
+  .logo-container img {
+    width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-menu {
+    gap: 15px;
+    font-size: 0.45rem;
+  }
+  
+  .logo-container img {
+    width: 50px;
+  }
+}
+
+/* VCR Effects - must not block interaction */
+.vignette {
+  pointer-events: none !important;
+  z-index: 10000;
+}
+
+.scanlines {
+  pointer-events: none !important;
+  z-index: 9999;
+}
+
+canvas.vcr {
+  pointer-events: none !important;
+  z-index: 9998;
+}
+
+canvas.snow {
+  pointer-events: none !important;
+  z-index: 9998;
+}
+
+/* Enable custom cursor */
+body,
+#gridCanvas {
+  cursor: none !important;
+}

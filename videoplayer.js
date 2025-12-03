@@ -7,58 +7,69 @@ const CONFIG = {
     
     // Intro videos
     INTRO: [
-        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833271/2_3_4_kywdfr.mp4'
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722652/234_knjuxb.mp4'
     ],
+    
+    // Subtitle mapping (maps video URLs to subtitle base names)
+    SUBTITLES: {
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722652/234_knjuxb.mp4': 'intro',
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722658/678_ffysld.mp4': 'choicepoint',
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722653/co_nop_ho_chieu_ko_nbillj.mp4': 'nop_ho_chieu',
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722654/minh_ve_nha_nch_vs_kien_offer_viec_shdlhf.mp4': 'minh_ve_nha',
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722654/minh_ke_chuyen_pvan_kien_khuyen_di_can_than_iez28d.mp4': 'Minh_ke_chuyen_pvan',
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722654/1924_minh_pvan_vy2ywz.mp4': 'pvan',
+        'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722657/minh_dy_viec_kien_azzcsi.mp4': 'minh_dong_y_offer'
+    },
     
     // Branching scenarios
     SCENARIOS: {
         choicePoint: {
-            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331435/6_7_8_dialogue_gs6zlc.mp4',
+            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722658/678_ffysld.mp4',
             buttons: { left: 'Apply', right: 'Go Home' },
             next: { left: 'applyPath', right: 'goHomePath' }
         },
         applyPath: {
             videos: [
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833277/9_10_11_t13qdx.mp4'
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722656/91011_xupmqx.mp4'
             ],
             afterSequence: 'applyChoice'
         },
         goHomePath: {
             videos: [
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763880053/Minhvenha_rlfkay.mp4',
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722657/minh_di_ve_emcpdl.mp4',
             ],
             afterSequence: 'offerChoice'
         },
         applyChoice: {
-            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331434/nop_ho_chieu_dialogue_dm8uyz.mp4',
+            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722653/co_nop_ho_chieu_ko_nbillj.mp4',
             buttons: { left: 'Disagree', right: 'Agree' },
             next: { left: 'offerChoice', right: 'pvanChoice' },
         },
         pvanChoice: {
-            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331436/19_-_24_minh_pvan_dialogue_konimp.mp4',
+            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722654/1924_minh_pvan_vy2ywz.mp4',
             buttons: { left: 'Disagree', right: 'Agree' },
             next: { left: 'badending', right: 'secondchanceending' }    
         },
         badending: {
             videos: [
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876934/minh_bi_bat_coc_mncbhh.mp4'
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722657/minh_bi_bat_coc_bad_ending_jc2ssk.mp4'
             ],
-            endingPage: 'endings/badending.html'
+            endingPage: 'ending/badending.html'
         },
         secondchanceending: {
             videos: [
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331437/Minh_ke_chuyen_pvan_Kien_bao_Minh_di_can_than_dialogue_loerj3.mp4'
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722654/minh_ke_chuyen_pvan_kien_khuyen_di_can_than_iez28d.mp4'
             ],
-            endingPage: 'endings/secondchanceending.html'
+            endingPage: 'ending/secondchanceending.html'
         },
         offerChoice: {
-            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331434/minh_ve_nha_kien_offer_viec_dialogue_izqz3g.mp4',
+            video: 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722654/minh_ve_nha_nch_vs_kien_offer_viec_shdlhf.mp4',
             buttons: { left: 'Agree', right: 'Disagree' },
             next: { left: 'agreeOffer', right: 'disagreeOffer' }
         },
         agreeOffer: {
             videos:
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764331435/minh_dong_y_offer_cua_kien_dialogue_iasb6v.mp4',
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722657/minh_dy_viec_kien_azzcsi.mp4',
             buttons: { left: 'Call Police', right: 'Make Offer' },
             next: { left: 'callPolice', right: 'makeOffer' }
         },
@@ -70,15 +81,15 @@ const CONFIG = {
         },
         callPolice: {
             videos: [
-                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833272/minh_bao_casat_zun6t1.mp4'
+                'https://res.cloudinary.com/dxg8llcr2/video/upload/v1764722652/minh_bao_csat_x9tz9n.mp4'
             ],
-            endingPage: 'endings/trueending.html'
+            endingPage: 'ending/trueending.html'
         },
         makeOffer: {
             videos: [
                 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763894479/minh_lam_viec_kien_offer_bkknra.mp4'
             ],
-            endingPage: 'endings/goodending.html'
+            endingPage: 'ending/goodending.html'
         }
     }
 };
@@ -96,12 +107,61 @@ const choiceB = document.getElementById('choiceB');
 const backBtn = document.getElementById('backBtn');
 const skipBtn = document.getElementById('skipBtn');
 
+// Subtitle tracks
+const trackVi = document.getElementById('track-vi');
+const trackEn = document.getElementById('track-en');
+
 let state = {
     intro: { index: 0, playing: true },
     sequence: { index: 0, videos: null },
     scenario: null,
     timer: null
 };
+
+// ============================================
+// SUBTITLE MANAGEMENT
+// ============================================
+
+/**
+ * Update subtitle tracks based on current video URL
+ * @param {string} url - Current video URL
+ */
+function updateSubtitles(url) {
+    const subtitleBase = CONFIG.SUBTITLES[url];
+    
+    if (subtitleBase) {
+        // Try to load subtitles with language suffixes first
+        const viPath = `subtitle/${subtitleBase}-vi.vtt`;
+        const enPath = `subtitle/${subtitleBase}-en.vtt`;
+        const singlePath = `subtitle/${subtitleBase}.vtt`;
+        
+        // Check if we have language-specific files or a single file
+        // For now, we'll try both patterns - the browser will handle 404s gracefully
+        trackVi.src = viPath;
+        trackEn.src = enPath;
+        
+        // If no language-specific files exist, use the single file for both tracks
+        // This allows backwards compatibility with single subtitle files
+        trackVi.onerror = () => {
+            trackVi.src = singlePath;
+            trackVi.onerror = null;
+        };
+        trackEn.onerror = () => {
+            trackEn.src = singlePath;
+            trackEn.onerror = null;
+        };
+        
+        // Force reload of tracks
+        const textTracks = video.textTracks;
+        for (let i = 0; i < textTracks.length; i++) {
+            textTracks[i].mode = 'showing';
+        }
+    } else {
+        // No subtitles available for this video
+        trackVi.src = '';
+        trackEn.src = '';
+    }
+}
 
 // ============================================
 // CORE FUNCTIONS
@@ -118,13 +178,11 @@ function play(url) {
     
     video.src = url;
     
-    // Unmute for specific interview videos
-    if (url === 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763876932/19_-_24_minh_phong_van_tgfjqu.mp4' || 
-        url === 'https://res.cloudinary.com/dxg8llcr2/video/upload/v1763833273/minh_ve_nha_nch_voi_kien_xin_viec_lam_kien_offer_viec_fcvugd.mp4') {
-        video.muted = false;
-    } else {
-        video.muted = true;
-    }
+    // Update subtitles for the new video
+    updateSubtitles(url);
+    
+    // Enable sound for all videos
+    video.muted = false;
     
     // Load and play when ready
     video.load();
@@ -230,9 +288,14 @@ function skipCurrent() {
         if (state.sequence.index < state.sequence.videos.length) {
             play(state.sequence.videos[state.sequence.index]);
         } else {
+            // Sequence finished - check if there's a next scenario or ending page
             const s = CONFIG.SCENARIOS[state.scenario];
             state.sequence.videos = null;
-            if (s && s.afterSequence) {
+            
+            if (s && s.endingPage) {
+                // Redirect to ending page
+                window.location.href = s.endingPage;
+            } else if (s && s.afterSequence) {
                 loadScenario(s.afterSequence);
             } else if (s && s.next) {
                 showChoices();
