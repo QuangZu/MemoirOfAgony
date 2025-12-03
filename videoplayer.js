@@ -129,6 +129,12 @@ let state = {
 function updateSubtitles(url) {
     const subtitleBase = CONFIG.SUBTITLES[url];
     
+    // First, disable all tracks
+    const textTracks = video.textTracks;
+    for (let i = 0; i < textTracks.length; i++) {
+        textTracks[i].mode = 'hidden';
+    }
+    
     if (subtitleBase) {
         // Try to load subtitles with language suffixes first
         const viPath = `subtitle/${subtitleBase}-vi.vtt`;
@@ -151,11 +157,15 @@ function updateSubtitles(url) {
             trackEn.onerror = null;
         };
         
-        // Force reload of tracks
-        const textTracks = video.textTracks;
-        for (let i = 0; i < textTracks.length; i++) {
-            textTracks[i].mode = 'showing';
-        }
+        // Enable only Vietnamese track by default (or English if Vietnamese not available)
+        setTimeout(() => {
+            if (textTracks[0]) {
+                textTracks[0].mode = 'showing'; // Vietnamese track
+            }
+            if (textTracks[1]) {
+                textTracks[1].mode = 'hidden'; // English track hidden
+            }
+        }, 100);
     } else {
         // No subtitles available for this video
         trackVi.src = '';

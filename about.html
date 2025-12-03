@@ -1,15 +1,15 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>About - Memoir of Agony</title>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/Asset 1.png">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&display=swap" rel="stylesheet">
-    
+
     <style>
         @font-face {
             font-family: 'TT Travels Next Trial Bold';
@@ -17,19 +17,288 @@
             font-weight: bold;
             font-style: normal;
         }
+
+        @font-face {
+            font-family: 'neue-kaine-variable';
+            src: url('font/neue-kaine-variable.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
     </style>
-    
+
     <!-- External CSS Files -->
+    <link rel="stylesheet" href="effect/glitch.css">
+    <link rel="stylesheet" href="effect/hover_letter.css">
     <link rel="stylesheet" href="effect/vcr.css">
-    <link rel="stylesheet" href="effect/responsive.css">
-    <link rel="stylesheet" href="about-style.css">
-    
+
+    <title>About - Memoir of Agony</title>
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* ============================================
+           BACKGROUND IMAGE
+           ============================================ */
+
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            background-image: url('img/Asset 4.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* ============================================
+           ABOUT PAGE
+           ============================================ */
+
+        #aboutPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: transparent;
+            z-index: 100;
+            opacity: 1;
+        }
+
+        #aboutPage > .screen-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        #aboutPage .screen-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #aboutPage .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10003;
+            position: relative;
+            width: 92%;
+            max-width: 1600px;
+            height: 90%;
+            max-height: 1000px;
+            box-sizing: border-box;
+        }
+
+        /* Title container - matching index.html pattern */
+        .title-container {
+            margin-bottom: 0;
+            position: relative;
+            z-index: 10003;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: justify;
+            width: 100%;
+        }
+
+        /* About Title Text */
+        .about-title {
+            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 3rem);
+            color: #000000;
+            text-align: left;
+            letter-spacing: 2px;
+            line-height: 1.3;
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+            text-align: justify;
+        }
+
+        /* Asset 3 Button */
+        .asset3-button {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 5%; /* Control horizontal position - decrease to move more left */
+            top: 50%; /* Vertically centered */
+            transform: translateY(-50%);
+            max-width: 30%; /* Decreased from 80% to 30% */
+            height: auto;
+            z-index: 10004;
+        }
+
+        .asset3-button:hover {
+            transform: translateY(-50%) scale(1.05) rotate(-2deg);
+            filter: brightness(1.2) drop-shadow(0 10px 30px rgba(222, 0, 0, 0.5));
+        }
+
+        /* About Image */
+        .about-image {
+            position: absolute;
+            right: 0;
+            top: 70%;
+            transform: translateY(-50%);
+            max-width: 90%;
+            height: auto;
+            z-index: 10002;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            position: absolute;
+            bottom: 23px;
+            left: 0px;
+            z-index: 10005;
+            display: flex;
+            gap: 30px;
+            font-family: 'TT Travels Next Trial Bold', 'Barlow', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #000000;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: inherit;
+            letter-spacing: inherit;
+            text-decoration: none;
+        }
+
+        .nav-btn.active {
+            color: #DE0000;
+        }
+
+        .nav-btn:hover {
+            color: #DE0000;
+        }
+
+        /* Logo in bottom right */
+        .logo-container {
+            position: absolute;
+            bottom: 1px;
+            right: 0px;
+            z-index: 10005;
+        }
+
+        .logo-container img {
+            width: 75px;
+            height: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-image {
+                max-width: 95%;
+                top: 65%;
+            }
+            
+            .about-title {
+                font-size: clamp(1.3rem, 2.5vw, 2.5rem);
+            }
+            
+            .asset3-button {
+                max-width: 35%;
+                left: 3%;
+            }
+            
+            .content-wrapper {
+                width: 95%;
+                height: 92%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .about-image {
+                max-width: 100%;
+                top: 68%;
+                right: -5%;
+            }
+            
+            .about-title {
+                font-size: clamp(1.1rem, 2.2vw, 2rem);
+                letter-spacing: 1.5px;
+            }
+            
+            .asset3-button {
+                max-width: 40%;
+                left: 2%;
+            }
+            
+            .nav-menu {
+                gap: 20px;
+                font-size: 0.5rem;
+                bottom: 18px;
+            }
+            
+            .logo-container img {
+                width: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .about-image {
+                display: none;
+            }
+            
+            .about-title {
+                font-size: clamp(0.9rem, 2vw, 1.5rem);
+                letter-spacing: 1px;
+                line-height: 1.4;
+            }
+            
+            .asset3-button {
+                max-width: 45%;
+                left: 50%;
+                top: 60%;
+                transform: translate(-50%, -50%);
+            }
+            
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.45rem;
+            }
+            
+            .logo-container img {
+                width: 50px;
+            }
+        }
+        
         /* Hide dat.gui controls */
         .dg.ac {
             display: none !important;
         }
-        
+
         /* Page transition animations */
         @keyframes tvTurnOn {
             0% {
@@ -128,13 +397,25 @@
     <!-- Background Image -->
     <div id="background"></div>
 
-    <!-- Main wrapper structure matching about-backup.html -->\n    <div id="aboutPage">
+    <!-- ABOUT PAGE -->
+    <div id="aboutPage">
         <div class="screen-container">
             <div class="screen-wrapper wobbley">
                 <div class="screen-wrapper">
                     <div class="screen-wrapper">
                         <div class="content-wrapper">
-                            <canvas id="gridCanvas"></canvas>
+                            <!-- About Image -->
+                            <img src="img/about.png" alt="About" class="about-image" />
+                            
+                            <div class="title-container">
+                                <!-- About Title Text -->
+                                <div class="about-title">
+                                    MEMOIR OF AGONY IS A COLLECTIVE EXPLORATION OF ONE OF THE MOST ALARMING ISSUES IN SOUTHEAST ASIA TODAY: HUMAN TRAFFICKING THROUGH JOB-SCAM SCHEMES.
+                                </div>
+                            </div>
+                            
+                            <!-- Asset 3 Image as Button -->
+                            <img src="img/Asset 3.png" alt="About" class="asset3-button" onclick="window.location.href='grid.html'" />
                             
                             <!-- Navigation Menu -->
                             <div class="nav-menu">
@@ -145,7 +426,7 @@
                             
                             <!-- Logo -->
                             <div class="logo-container">
-                                <img src="img/Asset 2.png" alt="Logo" />
+                                <img src="img/Asset 5.png" alt="Logo" />
                             </div>
                         </div>
                     </div>
@@ -162,77 +443,15 @@
 
     <!-- External Scripts -->
     <script src="dat.gui.min.js"></script>
-    <script src="effect/vcr.js"></script>
+    <script src="vcr.js"></script>
     <script src="audio.js"></script>
-    <script src="about-main.js" defer></script>
-    
+
     <script>
         // ============================================
-        // CURSOR TRAIL EFFECT (About page only)
-        // ============================================
-        
-        const canvas = document.getElementById('gridCanvas');
-        let isMoving = false;
-        let moveTimeout;
-        let lastTrailTime = 0;
-        const trailInterval = 30; // ms between trail spawns
-        
-        // Enhanced trail during movement
-        document.addEventListener('mousemove', (e) => {
-            // Create trail effect when moving fast
-            if (isMoving) {
-                const now = Date.now();
-                if (now - lastTrailTime > trailInterval) {
-                    createTrail(e.clientX, e.clientY);
-                    lastTrailTime = now;
-                }
-            }
-            
-            // Mark as moving
-            isMoving = true;
-            clearTimeout(moveTimeout);
-            moveTimeout = setTimeout(() => {
-                isMoving = false;
-            }, 100);
-        });
-        
-        // Enhanced trail during drag
-        let isDragging = false;
-        
-        canvas.addEventListener('pointerdown', () => {
-            isDragging = true;
-        });
-        
-        window.addEventListener('pointerup', () => {
-            isDragging = false;
-        });
-        
-        // Create red glitch trail
-        function createTrail(x, y) {
-            if (!isDragging && !isMoving) return;
-            
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = (x - 20) + 'px';
-            trail.style.top = (y - 20) + 'px';
-            
-            // Random glitch offset
-            const glitchX = (Math.random() - 0.5) * 10;
-            const glitchY = (Math.random() - 0.5) * 10;
-            trail.style.transform = `translate(${glitchX}px, ${glitchY}px)`;
-            
-            document.body.appendChild(trail);
-            
-            // Remove after animation
-            setTimeout(() => {
-                trail.remove();
-            }, 500);
-        }
-    </script>
-    
-    <script>
         // VCR EFFECT INITIALIZATION
-        const screen = new ScreenEffect("body", {});
+        // ============================================
+        
+        const screen = new ScreenEffect("#aboutPage", {});
 
         // Add VCR effects
         screen.add("vcr", {

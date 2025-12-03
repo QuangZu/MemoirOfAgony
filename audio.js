@@ -17,11 +17,11 @@
     const shouldStopMusic = isVideoPlayer || isEndingPage;
 
     // TV click sound (one-time)
-    const tvSound = new Audio('audio/old-tv-click.m4a');
+    const tvSound = new Audio('/audio/old-tv-click.m4a');
     tvSound.volume = 1.0;
 
     // VHS noise (continuous on non-video pages)
-    const vhsNoise = new Audio('audio/810227__jaeblo__vhs-style-noise.wav');
+    const vhsNoise = new Audio('/audio/810227__jaeblo__vhs-style-noise.wav');
     vhsNoise.volume = isVideoPlayer ? 0 : 0.2;
     vhsNoise.loop = true;
 
@@ -39,7 +39,7 @@
     // Initialize background music
     function initBackgroundMusic() {
         if (!backgroundMusic) {
-            backgroundMusic = new Audio('audio/NoCopyright Tense Cinematic Background Music - Anxiety by soundridemusic.mp3');
+            backgroundMusic = new Audio('/audio/NoCopyright Tense Cinematic Background Music - Anxiety by soundridemusic.mp3');
             backgroundMusic.volume = 0.3;
             backgroundMusic.loop = true;
             
@@ -55,7 +55,24 @@
 
     // Play sounds when page loads
     window.addEventListener('DOMContentLoaded', function() {
-        // Play TV click sound
+        // Unified interaction handler for all audio
+        function playAllAudio() {
+            tvSound.play().catch(e => console.log('TV sound play failed:', e));
+            vhsNoise.play().catch(e => console.log('VHS noise play failed:', e));
+            
+            if (!shouldStopMusic) {
+                const music = initBackgroundMusic();
+                const savedTime = parseFloat(sessionStorage.getItem(MUSIC_KEY)) || 0;
+                if (savedTime > 0) {
+                    music.currentTime = savedTime;
+                }
+                music.play().then(function() {
+                    sessionStorage.setItem(MUSIC_PLAYING_KEY, 'true');
+                }).catch(e => console.log('Background music play failed:', e));
+            }
+        }
+
+        // Try autoplay first
         tvSound.play().catch(function(error) {
             console.log('TV sound autoplay prevented:', error);
         });
@@ -64,11 +81,18 @@
         vhsNoise.play().catch(function(error) {
             console.log('VHS noise autoplay prevented:', error);
             
-            // If autoplay is blocked, try to play on first user interaction
-            document.body.addEventListener('click', function playOnInteraction() {
-                vhsNoise.play();
-                document.body.removeEventListener('click', playOnInteraction);
-            }, { once: true });
+            // If autoplay is blocked, play on ANY user interaction
+            const interactionEvents = ['click', 'touchstart', 'keydown'];
+            function playOnInteraction() {
+                playAllAudio();
+                interactionEvents.forEach(event => {
+                    document.removeEventListener(event, playOnInteraction);
+                });
+            }
+            
+            interactionEvents.forEach(event => {
+                document.addEventListener(event, playOnInteraction, { once: true });
+            });
         });
 
         // Background music logic
@@ -76,6 +100,9 @@
             // Stop music on videoplayer or ending pages
             sessionStorage.setItem(MUSIC_PLAYING_KEY, 'false');
             sessionStorage.removeItem(MUSIC_KEY);
+            if (backgroundMusic) {
+                backgroundMusic.pause();
+            }
         } else {
             // Play/resume background music on other pages
             const music = initBackgroundMusic();
@@ -92,15 +119,7 @@
                 sessionStorage.setItem(MUSIC_PLAYING_KEY, 'true');
             }).catch(function(error) {
                 console.log('Background music autoplay prevented:', error);
-                
-                // If autoplay is blocked, try to play on first user interaction
-                document.body.addEventListener('click', function playMusicOnInteraction() {
-                    music.currentTime = parseFloat(sessionStorage.getItem(MUSIC_KEY)) || 0;
-                    music.play().then(function() {
-                        sessionStorage.setItem(MUSIC_PLAYING_KEY, 'true');
-                    });
-                    document.body.removeEventListener('click', playMusicOnInteraction);
-                }, { once: true });
+                // Already handled by unified interaction handler above
             });
         }
     });
