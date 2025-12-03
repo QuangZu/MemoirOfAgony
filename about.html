@@ -174,45 +174,24 @@
     <!-- External Scripts -->
     <script src="dat.gui.min.js"></script>
     <script src="effect/vcr.js"></script>
+    <script src="effect/cursor.js"></script>
     <script src="audio.js"></script>
     <script src="about-main.js" defer></script>
     
     <script>
         // ============================================
-        // SCARY VHS CURSOR EFFECT
+        // CURSOR TRAIL EFFECT (About page only)
         // ============================================
         
-        const customCursor = document.getElementById('customCursor');
         const canvas = document.getElementById('gridCanvas');
+        const customCursor = document.getElementById('customCursor');
         let isMoving = false;
         let moveTimeout;
         let lastTrailTime = 0;
         const trailInterval = 30; // ms between trail spawns
         
-        // Track cursor position
-        let cursorX = 0;
-        let cursorY = 0;
-        let targetX = 0;
-        let targetY = 0;
-        
-        // Update cursor position with smooth follow
-        function updateCursorPosition() {
-            cursorX += (targetX - cursorX) * 0.2;
-            cursorY += (targetY - cursorY) * 0.2;
-            
-            customCursor.style.transform = `translate(${cursorX - 30}px, ${cursorY - 30}px)`;
-            requestAnimationFrame(updateCursorPosition);
-        }
-        updateCursorPosition();
-        
-        // Mouse move handler
+        // Enhanced trail during movement
         document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-            
-            // Show cursor
-            customCursor.classList.add('active');
-            
             // Create trail effect when moving fast
             if (isMoving) {
                 const now = Date.now();
@@ -235,12 +214,10 @@
         
         canvas.addEventListener('pointerdown', () => {
             isDragging = true;
-            customCursor.style.transform += ' scale(1.2)';
         });
         
         window.addEventListener('pointerup', () => {
             isDragging = false;
-            customCursor.style.transform = customCursor.style.transform.replace(' scale(1.2)', '');
         });
         
         // Create red glitch trail
@@ -264,15 +241,6 @@
                 trail.remove();
             }, 500);
         }
-        
-        // Hide cursor when leaving window
-        document.addEventListener('mouseleave', () => {
-            customCursor.classList.remove('active');
-        });
-        
-        document.addEventListener('mouseenter', () => {
-            customCursor.classList.add('active');
-        });
     </script>
     
     <script>

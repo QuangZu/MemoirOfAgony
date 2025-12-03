@@ -19,7 +19,7 @@
         cursorX += (targetX - cursorX) * 0.2;
         cursorY += (targetY - cursorY) * 0.2;
         
-        customCursor.style.transform = `translate(${cursorX - 30}px, ${cursorY - 30}px)`;
+        customCursor.style.transform = `translate(${cursorX - 15}px, ${cursorY - 15}px)`;
         requestAnimationFrame(updateCursorPosition);
     }
     

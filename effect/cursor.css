@@ -17,8 +17,8 @@ canvas, #gridCanvas {
 /* Scary VHS Cursor Effect */
 .custom-cursor {
   position: fixed;
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   pointer-events: none;
   z-index: 10010;
   mix-blend-mode: screen;
