@@ -175,9 +175,3 @@ canvas.snow {
   pointer-events: none !important;
   z-index: 9998;
 }
-
-/* Enable custom cursor */
-body,
-#gridCanvas {
-  cursor: none !important;
-}

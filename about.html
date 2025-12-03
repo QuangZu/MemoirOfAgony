@@ -21,7 +21,7 @@
     
     <!-- External CSS Files -->
     <link rel="stylesheet" href="effect/vcr.css">
-    <link rel="stylesheet" href="effect/cursor.css">
+    <link rel="stylesheet" href="effect/responsive.css">
     <link rel="stylesheet" href="about-style.css">
     
     <style>
@@ -128,18 +128,7 @@
     <!-- Background Image -->
     <div id="background"></div>
 
-    <!-- Scary VHS Cursor Effect -->
-    <div class="custom-cursor" id="customCursor">
-        <div class="cursor-core"></div>
-        <div class="cursor-glitch cursor-glitch-1"></div>
-        <div class="cursor-glitch cursor-glitch-2"></div>
-        <div class="cursor-glitch cursor-glitch-3"></div>
-        <div class="cursor-scan"></div>
-        <div class="cursor-noise"></div>
-    </div>
-
-    <!-- Main wrapper structure matching about-backup.html -->
-    <div id="aboutPage">
+    <!-- Main wrapper structure matching about-backup.html -->\n    <div id="aboutPage">
         <div class="screen-container">
             <div class="screen-wrapper wobbley">
                 <div class="screen-wrapper">
@@ -174,7 +163,6 @@
     <!-- External Scripts -->
     <script src="dat.gui.min.js"></script>
     <script src="effect/vcr.js"></script>
-    <script src="effect/cursor.js"></script>
     <script src="audio.js"></script>
     <script src="about-main.js" defer></script>
     
@@ -184,7 +172,6 @@
         // ============================================
         
         const canvas = document.getElementById('gridCanvas');
-        const customCursor = document.getElementById('customCursor');
         let isMoving = false;
         let moveTimeout;
         let lastTrailTime = 0;
