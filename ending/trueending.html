@@ -76,39 +76,14 @@
     </div>
 
     <!-- External Scripts -->
-    <script src="dat.gui.min.js"></script>
-    <script src="effectvcr.js"></script>
-    <script src="audio.js"></script>
+    <script src="../dat.gui.min.js"></script>
+    <script src="../vcr.js"></script>
+    <script src="../audio.js"></script>
+    <script src="ending.js"></script>
 
     <script>
-        // ============================================
-        // CREATE GLITCH TITLE - TRUE ENDING
-        // ============================================
-
-        const titleText = "TRUE ENDING";
-
-        // Populate all 9 glitch lines with the same content
-        for (let i = 1; i <= 9; i++) {
-            const titleElement = document.getElementById(i === 1 ? 'endingTitle' : `endingTitle${i}`);
-            
-            titleText.split('').forEach(char => {
-                const span = document.createElement('span');
-                span.className = 'letter';
-                span.textContent = char === ' ' ? '\u00A0' : char;
-                titleElement.appendChild(span);
-            });
-        }
-
-        // ============================================
-        // MENU BUTTON NAVIGATION
-        // ============================================
-
-        const menuBtn = document.getElementById('menuBtn');
-
-        menuBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'index.html';
-        });
+        // Initialize with "TRUE ENDING" title
+        initializeEnding("TRUE ENDING");
     </script>
 </body>
 </html>
